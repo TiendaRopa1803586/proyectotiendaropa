@@ -1,0 +1,71 @@
+{
+  "name": "corona/tiendaderopa",
+  "version": "0.0.1",
+  "type": "project",
+  "keywords": ["console", "tool", "example"],
+  "homepage": "https://google.com",
+  "time": "2020-06-09",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Nancy Bentancourt",
+      "email": "nancy.betancourt.sanchez@gmail.com",
+      "homepage": "http://www.sena.edu.co",
+      "role": "developer"
+    },
+    {
+      "name": "Duban Gutierrez",
+      "email": "dubangutierrez132@gmail.com",
+      "homepage": "http://www.sena.edu.co",
+      "role": "developer"
+    },
+    {
+      "name": "David Angarita ",
+      "email": "angaritaleo2000@outlook.com",
+      "homepage": "http://www.sena.edu.co",
+      "role": "developer"
+    },
+    {
+      "name": "Juan Tellez",
+      "email": "jtellezochoa11@gmail.com",
+      "homepage": "http://www.sena.edu.co",
+      "role": "developer"
+    },
+    {
+      "name": "Jose Garzon",
+      "email": "joseluisgarzonvaron89@gmail.com",
+      "homepage": "http://www.sena.edu.co",
+      "role": "developer"
+    },
+    {
+      "name": "Camilo Gomez",
+      "email": "camilv45@gmail.com",
+      "homepage": "http://www.sena.edu.co",
+      "role": "developer"
+    }
+
+  ],
+  "require":{
+    "php": ">=7.2.0",
+    "almasaeed2010/adminlte": "^3.0",
+    "vlucas/phpdotenv": "^3.6"
+  },
+  "require-dev": {
+
+  },
+  "autoload": {
+
+  },
+  "scripts": {
+    "post-install-cmd": [
+    ],
+    "post-update-cmd": [
+    ]
+  },
+  "config": {
+    "bin-dir": "bin"
+  },
+  "extra": {
+
+  }
+}

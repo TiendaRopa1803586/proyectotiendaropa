@@ -194,7 +194,7 @@ class ABONO extends BasicModel
         return ABONO::search("SELECT * FROM proyectotiendaropa.ABONO");
     }
 
-    public static function ABONORegistrado ($Fecha) : bool
+    public static function ABONOregistrado ($Fecha) : bool
     {
         $result = ABONO::search("SELECT Codigo FROM proyectotiendaropa.ABONO where Fecha = ".$Fecha);
         if (count($result) > 0){

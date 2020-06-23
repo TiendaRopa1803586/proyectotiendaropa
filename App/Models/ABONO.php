@@ -3,7 +3,7 @@
 
 namespace App\Models;
 
-
+require ('BasicModel.php');
 class ABONO extends BasicModel
 {
 

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="9376223a-d27c-4fb7-a1f1-2399371a1ed9" name="tienda de ropa" url="http://localhost">
+        <fileTransfer mountedRoot="C:\laragon\www" accessType="MOUNT" port="0" />
+      </webServer>
+    </option>
+  </component>
+</project>

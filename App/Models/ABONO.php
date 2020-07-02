@@ -3,6 +3,7 @@
 
 namespace App\Models;
 
+require('BasicModel.php');
 
 class ABONO extends BasicModel
 {
@@ -120,7 +121,7 @@ class ABONO extends BasicModel
 
     public function create() : bool
     {
-        $result = $this->insertRow("INSERT INTO proyectotiendaropa.ABONO VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", array(
+        $result = $this->insertRow("INSERT INTO merempresac.ABONO VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", array(
                 $this->Fecha,
                 $this->Descripcion,
                 $this->MetodoPago,
@@ -135,7 +136,7 @@ class ABONO extends BasicModel
 
     public function update() : bool
     {
-        $result = $this->updateRow("UPDATE proyectotiendaropa.ABONO SET Fecha = ?, Descripcion = ?, MetodoPago = ?, Valor = ? WHERE Codigo = ?", array(
+        $result = $this->updateRow("UPDATE merempresac.ABONO SET Fecha = ?, Descripcion = ?, MetodoPago = ?, Valor = ? WHERE Codigo = ?", array(
                 $this->Fecha,
                 $this->Descripcion,
                 $this->MetodoPago,
@@ -177,7 +178,7 @@ class ABONO extends BasicModel
         $ABONO = null;
         if ($Codigo > 0){
             $ABONO = new ABONO();
-            $getrow = $ABONO->getRow("SELECT * FROM proyectotiendaropa.ABONO WHERE Codigo =?", array($Codigo));
+            $getrow = $ABONO->getRow("SELECT * FROM merempresac.ABONO WHERE Codigo =?", array($Codigo));
             $ABONO->Codigo = $getrow['Codigo'];
             $ABONO->Fecha = $getrow['Fecha'];
             $ABONO->Descripcion = $getrow['Descripcion'];
@@ -191,12 +192,12 @@ class ABONO extends BasicModel
 
     public static function getAll() : array
     {
-        return ABONO::search("SELECT * FROM proyectotiendaropa.ABONO");
+        return ABONO::search("SELECT * FROM merempresac.ABONO");
     }
 
     public static function ABONORegistrado ($Fecha) : bool
     {
-        $result = ABONO::search("SELECT Codigo FROM proyectotiendaropa.ABONO where Fecha = ".$Fecha);
+        $result = ABONO::search("SELECT Codigo FROM merempresac.ABONO where Fecha = ".$Fecha);
         if (count($result) > 0){
             return true;
         }else{

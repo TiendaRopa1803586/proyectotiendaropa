@@ -2,7 +2,9 @@
 
 
 namespace App\Models;
-
+use http\QueryString;
+require('BasicModel.php');
+#Creacion de la clase con herencia de la clase Basic Model
 
 class DESCUENTO extends BasicModel
 {
@@ -117,7 +119,7 @@ class DESCUENTO extends BasicModel
 
     public function create() : bool
     {
-        $result = $this->insertRow("INSERT INTO proyectotiendaropa.DESCUENTO VALUES (NULL, ?, ?, ?, ?)", array(
+        $result = $this->insertRow("INSERT INTO merempresac.Descuento VALUES (NULL, ?, ?, ?, ?)", array(
                 $this->Nombre,
                 $this->Porcentaje,
                 $this->Fecha_inicio,
@@ -130,7 +132,7 @@ class DESCUENTO extends BasicModel
     }
     public function update() : bool
     {
-        $result = $this->updateRow("UPDATE proyectotiendaropa.DESCUENTO SET Nombre= ?, Porcentaje = ?, Fecha_inicio = ?, Fecha_fin = ? WHERE Codigo = ?", array(
+        $result = $this->updateRow("UPDATE merempresac.Descuento SET Nombre= ?, Porcentaje = ?, Fecha_inicio = ?, Fecha_fin = ? WHERE Codigo = ?", array(
                 $this->Nombre,
                 $this->Porcentaje,
                 $this->Fecha_inicio,
@@ -148,48 +150,48 @@ class DESCUENTO extends BasicModel
 
     public static function search($query) : array
     {
-        $arrDESCUENTO= array();
-        $tmp = new DESCUENTO();
+        $arrDescuento= array();
+        $tmp = new Descuento();
         $getrows = $tmp->getRows($query);
 
         foreach ($getrows as $valor) {
-            $DESCUENTO = new DESCUENTO();
-            $DESCUENTO->Codigo = $valor['Codigo'];
-            $DESCUENTO->Nombre= $valor['Nombre'];
-            $DESCUENTO->Porcentaje = $valor['Porcentaje'];
-            $DESCUENTO->Fecha_inicio = $valor['Fecha_inicio'];
-            $DESCUENTO->Fecha_fin = $valor['Fecha_fin'];
-            $DESCUENTO->Disconnect();
-            array_push($arrDESCUENTO, $DESCUENTO);
+            $Descuento = new Descuento();
+            $Descuento->Codigo = $valor['Codigo'];
+            $Descuento->Nombre= $valor['Nombre'];
+            $Descuento->Porcentaje = $valor['Porcentaje'];
+            $Descuento->Fecha_inicio = $valor['Fecha_inicio'];
+            $Descuento->Fecha_fin = $valor['Fecha_fin'];
+            $Descuento->Disconnect();
+            array_push($arrDescuento, $Descuento);
         }
         $tmp->Disconnect();
-        return $arrDESCUENTO;
+        return $arrDescuento;
     }
-    public static function searchForId($Codigo) : DESCUENTO
+    public static function searchForId($Codigo) : Descuento
     {
-        $DESCUENTO = null;
+        $Descuento = null;
         if ($Codigo > 0){
-            $DESCUENTO = new DESCUENTO();
-            $getrow = $DESCUENTO->getRow("SELECT * FROM proyectotiendaropa.DESCUENTO WHERE Codigo =?", array($Codigo));
-            $DESCUENTO->Codigo = $getrow['Codigo'];
-            $DESCUENTO->Nombre= $getrow['Nombre'];
-            $DESCUENTO->Porcentaje= $getrow['Porcentaje'];
-            $DESCUENTO->Fecha_inicio = $getrow['Fecha_inicio'];
-            $DESCUENTO->Fecha_fin = $getrow['Fecha_fin'];
+            $Descuento = new Descuento();
+            $getrow = $Descuento->getRow("SELECT * FROM merempresac.Descuento WHERE Codigo =?", array($Codigo));
+            $Descuento->Codigo = $getrow['Codigo'];
+            $Descuento->Nombre= $getrow['Nombre'];
+            $Descuento->Porcentaje= $getrow['Porcentaje'];
+            $Descuento->Fecha_inicio = $getrow['Fecha_inicio'];
+            $Descuento->Fecha_fin = $getrow['Fecha_fin'];
 
         }
-        $DESCUENTO->Disconnect();
-        return $DESCUENTO;
+        $Descuento->Disconnect();
+        return $Descuento;
     }
 
     public static function getAll() : array
     {
-        return DESCUENTO::search("SELECT * FROM proyectotiendaropa.DESCUENTO");
+        return Descuento::search("SELECT * FROM merempresac.Descuento");
     }
 
-    public static function DESCUENTORegistrado ($Nombre) : bool
+    public static function DescuentoRegistrado ($Nombre) : bool
     {
-        $result = DESCUENTO::search("SELECT Codigo FROM proyectotiendaropa.DESCUENTO where Nombre = ".$Nombre);
+        $result = Descuento::search("SELECT Codigo FROM merempresac.Descuento where Nombre = ".$Nombre  );
         if (count($result) > 0){
             return true;
         }else{

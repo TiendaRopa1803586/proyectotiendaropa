@@ -2,9 +2,11 @@
 
 
 namespace App\Models;
+use http\QueryString;
+require('BasicModel.php');
+#Creacion de la clase con herencia de la clase Basic Model
 
-
-class CATEGORIA extends BasicModel
+class Categoria extends BasicModel
 {
     private $Codigo;
     private $Nombre;
@@ -12,20 +14,20 @@ class CATEGORIA extends BasicModel
     private $Estado;
 
     /**
-     * CATEGORIA constructor.
+     *Categoria constructor.
      * @param $Codigo
      * @param $Nombre
      * @param $Descripcion
      * @param $Estado
 
      */
-    public function __construct($CATEGORIA = array())
+    public function __construct($Categoria = array())
     {
         parent::__construct(); //Llama al contructor padre "la clase conexion" para conectarme a la BD
-        $this->Codigo = $CATEGORIA['Codigo'] ?? null;
-        $this->Nombre = $CATEGORIA['Nombre'] ?? null;
-        $this->Descripcion = $CATEGORIA['Descripcion'] ?? null;
-        $this->Estado = $CATEGORIA['Estado'] ?? null;
+        $this->Codigo = $Categoria['Codigo'] ?? null;
+        $this->Nombre = $Categoria['Nombre'] ?? null;
+        $this->Descripcion = $Categoria['Descripcion'] ?? null;
+        $this->Estado = $Categoria['Estado'] ?? null;
     }
     /* Metodo destructor cierra la conexion. */
     function __destruct() {
@@ -95,9 +97,10 @@ class CATEGORIA extends BasicModel
     {
         $this->Estado = $Estado;
     }
+    //creacion del metodo create
     public function create() : bool
     {
-        $result = $this->insertRow("INSERT INTO proyectotiendaropa.CATEGORIA VALUES (NULL, ?, ?, ?)", array(
+        $result = $this->insertRow("INSERT INTO merempresac.Categoria VALUES (NULL, ?, ?, ?)", array(
                 $this->Nombre,
                 $this->Descripcion,
                 $this->Estado,
@@ -109,7 +112,7 @@ class CATEGORIA extends BasicModel
     }
     public function update() : bool
     {
-        $result = $this->updateRow("UPDATE proyectotiendaropa.CATEGORIA SET Nombre = ?, Descripcion = ?, Estado = ? WHERE Codigo = ?", array(
+        $result = $this->updateRow("UPDATE merempresac.Categoria SET Nombre = ?, Descripcion = ?, Estado = ? WHERE Codigo = ?", array(
                 $this->Nombre,
                 $this->Descripcion,
                 $this->Estado,
@@ -119,58 +122,73 @@ class CATEGORIA extends BasicModel
         $this->Disconnect();
         return $result;
     }
-
+    //Creacion del la funcion eliminar o cambiar estado de una persona segun el Id
     public function deleted($Codigo) : void
     {
         // TODO: Implement deleted() method.
     }
+    //buscar por query
     public static function search($query) : array
     {
-        $arrCATEGORIA = array();
-        $tmp = new CATEGORIA();
+        $arrCategoria = array();
+        $tmp = new Categoria();
         $getrows = $tmp->getRows($query);
 
         foreach ($getrows as $valor) {
-            $CATEGORIA = new CATEGORIA();
-            $CATEGORIA->Codigo = $valor['Codigo'];
-            $CATEGORIA->Nombre = $valor['Nombre'];
-            $CATEGORIA->Descripcion = $valor['Descripcion'];
-            $CATEGORIA->Estado = $valor['Estado'];
-            $CATEGORIA->Disconnect();
-            array_push($arrCATEGORIA, $CATEGORIA);
+            $Categoria = new Categoria();
+            $Categoria->Codigo = $valor['Codigo'];
+            $Categoria->Nombre = $valor['Nombre'];
+            $Categoria->Descripcion = $valor['Descripcion'];
+            $Categoria->Estado = $valor['Estado'];
+            $Categoria->Disconnect();
+            array_push($arrCategoria, $Categoria);
         }
         $tmp->Disconnect();
-        return $arrCATEGORIA;
+        return $arrCategoria;
     }
-    public static function searchForId($Codigo) : ABONO
+    public static function searchForId($Codigo) : Categoria
     {
-        $CATEGORIA= null;
+        $Categoria= null;
         if ($Codigo > 0){
-            $CATEORIA= new CATEGORIA();
-            $getrow = $CATEGORIA->getRow("SELECT * FROM proyectotiendaropa.CATEGORIA WHERE Codigo =?", array($Codigo));
-            $CATEGORIA->Codigo = $getrow['Codigo'];
-            $CATEORIA->Nombre = $getrow['Nombre'];
-            $CATEORIA->Descripcion = $getrow['Descripcion'];
-            $CATEORIA->Estado = $getrow['Estado'];
+            $Categoria= new Categoria();
+            $getrow = $Categoria->getRow("SELECT * FROM merempresac.Categoria WHERE Codigo =?", array($Codigo));
+            $Categoria->Codigo = $getrow['Codigo'];
+            $Categoria->Nombre = $getrow['Nombre'];
+            $Categoria->Descripcion = $getrow['Descripcion'];
+            $Categoria->Estado = $getrow['Estado'];
 
         }
-        $CATEGORIA->Disconnect();
-        return $CATEGORIA;
+        $Categoria->Disconnect();
+        return $Categoria;
     }
 
 
     public static function getAll() : array
     {
-        return CATEGORIA::search("SELECT * FROM proyectotiendaropa.CATEORIA");
+        return Categoria::search("SELECT * FROM merempresac.Categoria");
     }
 
-    public static function CATEGORIARegistrado ($Nombre) : bool
+    public static function CategoriaRegistrado ($Nombre) : bool
     {
-        $result = CATEGORIA::search("SELECT Codigo FROM proyectotiendaropa.CATEGORIA where Nombre = ".$Nombre);
+        $result = Categoria::search("SELECT * FROM merempresac.categoria where Nombre = '".$Nombre . "'");
         if (count($result) > 0){
             return true;
         }else{
             return false;
         }
+    }
+    public function __toString()
+    {
+        return $this->documentPerson." ".$this->namePerson." ".$this->dateBornPerson." ".$this->rhperson
+            ." ".$this->emailPerson ." ".$this->phonePerson." ".$this->adressPerson." ".$this->genereperson." ".$this->userperson
+            ." ".$this->passwordPerson." ".$this->typePerson." ".$this->statePerson." ".$this->photoperson;
+    }
+
+
+    public function delete($idCategoria): bool
+    {
+        $CategoriaDelet = Categoria::searchForId($idCategoria);
+        $CategoriaDelet->setestado("Inactivo");
+        return $CategoriaDelet->update();
     }
 }

@@ -1,11 +1,9 @@
 <?php
 
 
-namespace App\Models;
+namespace app\Models;
 use http\QueryString;
-
-require ('BasicModel.php');
-
+require_once('BasicModel.php');
 
 class Persona extends BasicModel
 {
@@ -32,8 +30,7 @@ class Persona extends BasicModel
      * @param $Rol
      * @param $Contrasena
      * @param $Estado
-
-     **/
+     */
     public function __construct($Persona = array())
     {
         parent::__construct(); //Llama al contructor padre "la clase conexion" para conectarme a la BD
@@ -44,227 +41,23 @@ class Persona extends BasicModel
         $this->Correo = $Persona['Correo'] ?? null;
         $this->Telefono = $Persona['Telefono'] ?? null;
         $this->Direccion = $Persona['Direccion'] ?? null;
-        $this->Rol = $Persona['ROL'] ?? null;
+        $this->Rol = $Persona['Rol'] ?? null;
         $this->Contrasena = $Persona['Contrasena'] ?? null;
         $this->Estado = $Persona['Estado'] ?? null;
-
-    }
-
-    /* Metodo destructor cierra la conexion. */
-    function __destruct() {
-        $this->Disconnect();
-    }
-
-    /**
-     * @return int
-     */
-    public function getDocumento() : int
-    {
-        return $this->Documento;
-    }
-
-    /**
-     * @param int $Documento
-     */
-    public function setDocumento(int $Documento): void
-    {
-        $this->Documento = $Documento;
-    }
-
-    /**
-     * @return string
-     */
-    public function getNombre() : string
-    {
-        return $this->Nombre;
-    }
-
-    /**
-     * @param string $Nombre
-     */
-    public function setNombre(string $Nombre): void
-    {
-        $this->Nombre = $Nombre;
-    }
-
-    /**
-     * @return string
-     */
-    public function getApellido() : string
-    {
-        return $this->Apellido;
-    }
-
-    /**
-     * @param string $Apellido
-     */
-    public function setApellido(string $Apellido): void
-    {
-        $this->Apellido = $Apellido;
-    }
-
-    /**
-     * @return String
-     */
-    public function getGenero() : String
-    {
-        return $this->Genero;
-    }
-
-    /**
-     * @param String $Genero
-     */
-    public function setGenero(String $Genero): void
-    {
-        $this->Genero = $Genero;
-    }
-
-    /**
-     * @return String
-     */
-    public function getCorreo() : String
-    {
-        return $this->Correo;
-    }
-
-
-    /**
-     * @param String $Correo
-     */
-    public function setCorreo(String $Correo): void
-    {
-        $this->Correo = $Correo;
-    }
-
-    /**
-     * @return int
-     */
-    public function getTelefono() : int
-    {
-        return $this->Telefono;
-    }
-
-    /**
-     * @param int $Telefono
-     */
-    public function setTelefono(int $Telefono): void
-    {
-        $this->Telefono = $Telefono;
-    }
-
-    /**
-     * @return String
-     */
-    public function getDireccion() : String
-    {
-        return $this->Direccion;
-    }
-
-    /**
-     * @param String $Direccion
-     */
-    public function setDireccion(String $Direccion): void
-    {
-        $this->Genero = $Direccion;
-    }
-
-    /**
-     * @return String
-     */
-    public function getRol() : String
-    {
-        return $this->Rol;
-    }
-
-    /**
-     * @param String $Rol
-     */
-    public function setRol(String $Rol): void
-    {
-        $this->Rol = $Rol;
     }
     /**
-     * @return String
+     * @return array
      */
-    public function getContrasena() : String
+    public static function getAll(): array
     {
-        return $this->Contrasena;
+        return Persona::search("SELECT * FROM merempresac.Persona");
     }
-
     /**
-     * @param String $Contrasena
+     * @param $query
+     * @return Persona|array
+     * @throws \Exception
      */
-    public function setContrasena(String $Contrasena): void
-    {
-        $this->Contrasena = $Contrasena;
-    }
-
-    /**
-     * @return String
-     */
-    public function getEstado() : String
-    {
-        return $this->Estado;
-    }
-
-    /**
-     * @param String $Estado
-     */
-    public function setEstado(String $Estado): void
-    {
-        $this->Estado = $Estado;
-    }
-
-    public function create() : bool
-    {
-        $result = $this->insertRow("INSERT INTO proyectotiendaropa.Persona VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", array(
-                $this->Documento,
-                $this->Nombre,
-                $this->Apellido,
-                $this->Genero,
-                $this->Correo,
-                $this->Telefono,
-                $this->Direccion,
-                $this->Rol,
-                $this->Contrasena,
-                $this->Estado,
-
-
-
-            )
-        );
-        $this->Disconnect();
-        return $result;
-    }
-
-    public function update() : bool
-    {
-        $result = $this->updateRow("UPDATE proyectotiendaropa.Persona SET Documento = ?, Nombre = ?, Apellido = ?, Genero = ?, Correo = ?, Telefono=? , Direccion=? , rol=? , Contrasena=? , Estado=?  WHERE Documento = ?", array(
-                $this->Documento,
-                $this->Nombre,
-                $this->Apellido,
-                $this->Genero,
-                $this->Correo,
-                $this->Telefono,
-                $this->Direccion,
-                $this->Rol,
-                $this->Contrasena,
-                $this->Estado,
-            )
-        );
-        $this->Disconnect();
-        return $result;
-    }
-// PREGUNTAR SOBRE LA PRIMERA VARIABLE
-    public function deleted($Documento) : void
-    {
-       $Person = Persona::searchForId($Documento);
-       $this->setEstado("inactivo");
-       $this->update();
-        // TODO: Implement deleted() method.
-    }
-
-    public static function search($query) : array
+    public static function search ($query)
     {
         $arrPersona = array();
         $tmp = new Persona();
@@ -282,20 +75,237 @@ class Persona extends BasicModel
             $Persona->Rol = $valor['Rol'];
             $Persona->Contrasena = $valor['Contrasena'];
             $Persona->Estado = $valor['Estado'];
-          $Persona->Disconnect();
-          array_push($arrPersona, $Persona);
-
+            $Persona->Disconnect();
+            array_push($arrPersona, $Persona);
         }
         $tmp->Disconnect();
         return $arrPersona;
     }
-//FALTA TERMINAR ESTO DE ABAJO
-    public static function searchForId($Documento) : Persona
+    /**
+     * @param $documento
+     * @return bool
+     * @throws \Exception
+     */
+    public static function usuarioregistrado ($Documento): bool
     {
-        $Persona=null;
-        if ($Documento > 0){
+        $result = Persona::search("SELECT * FROM merempresac.Persona where Documento = ".$Documento );
+        if (count($result) > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    /**
+     *
+     */
+    function __destruct()
+    {
+        $this->Disconnect();
+    }
+    /**
+     * @return int
+     */
+    public function getDocumento(): int
+    {
+        return $this->Documento;
+    }
+
+    /**
+     * @param int $Documento
+     */
+    public function setDocumento(int $Documento): void
+    {
+        $this->Documento = $Documento;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNombre(): string
+    {
+        return $this->Nombre;
+    }
+    /**
+     * @param string $Nombre
+     */
+    public function setNombre(string $Nombre): void
+    {
+        $this->Nombre = $Nombre;
+    }
+
+    /**
+     * @return string
+     *
+     */
+    public function getApellido(): string
+    {
+        return $this->Apellido;
+    }
+
+    /**
+     * @param string $Apellido
+     */
+    public function setApellido(string $Apellido): void
+    {
+        $this->Apellido = $Apellido;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGenero(): string
+    {
+        return $this->Genero;
+    }
+
+    /**
+     * @param string $Genero
+     */
+    public function setGenero(string $Genero): void
+    {
+        $this->Genero = $Genero;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCorreo(): string
+    {
+        return $this->Correo;
+    }
+
+    /**
+     * @param string $Correo
+     */
+    public function setCorreo(string $Correo): void
+    {
+        $this->Correo = $Correo;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTelefono(): int
+    {
+        return $this->Telefono;
+    }
+
+    /**
+     * @param int $Telefono
+     */
+    public function setTelefono(int $Telefono): void
+    {
+        $this->Telefono = $Telefono;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDireccion(): string
+    {
+        return $this->Direccion;
+    }
+
+    /**
+     * @param string $Direccion
+     */
+    public function setDireccion(string $Direccion): void
+    {
+        $this->Direccion = $Direccion;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRol(): string
+    {
+        return $this->Rol;
+    }
+
+    /**
+     * @param string $Rol
+     */
+    public function setRol(string $Rol): void
+    {
+        $this->Rol = $Rol;
+    }
+
+    /**
+     * @return string
+     */
+    public function getContrasena(): string
+    {
+        return $this->Contrasena;
+    }
+
+    /**
+     * @param string $Contrasena
+     */
+    public function setContrasena(string $Contrasena): void
+    {
+        $this->Contrasena = $Contrasena;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEstado(): string
+    {
+        return $this->Estado;
+    }
+
+    /**
+     * @param string $Estado
+     */
+    public function setEstado(string $Estado): void
+    {
+        $this->Estado = $Estado;
+    }
+    /**
+     * @return bool
+     * @throws \Exception
+     */
+   public function create(): bool
+    {
+        $result = $this->insertRow("INSERT INTO merempresac.persona VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", array(
+                $this->Documento,
+                $this->Nombre,
+                $this->Apellido,
+                $this->Genero,
+                $this->Correo,
+                $this->Telefono,
+                $this->Direccion,
+                $this->Rol,
+                $this->Contrasena,
+                $this->Estado
+            )
+
+        );
+        $this->Disconnect();
+        return $result;
+    }
+    /**
+     * @param $id
+     * @return bool
+     */
+    public function deleted($Documento): bool
+    {
+        $User = Persona::searchForDocumento($Documento); //Buscando un usuario por el ID
+        $User->setEstado("Inactivo"); //Cambia el estado del Usuario
+        return $User->update();                    //Guarda los cambios..
+    }
+
+    /**
+     * @param $Documento
+     * @return Persona
+     * @throws \Exception
+     */
+    public static function searchForDocumento($Documento): Persona
+    {
+        $Persona = null;
+        if ($Documento > 0) {
             $Persona = new Persona();
-        $getrow = $Persona->getRow("SELECT * FROM proyectotiendaropa.Persona WHERE Documento =?", array($Documento));
+            $getrow = $Persona->getRow("SELECT * FROM merempresac.Persona WHERE Documento =?", array($Documento));
             $Persona->Documento = $getrow['Documento'];
             $Persona->Nombre = $getrow['Nombre'];
             $Persona->Apellido = $getrow['Apellido'];
@@ -304,27 +314,77 @@ class Persona extends BasicModel
             $Persona->Telefono = $getrow['Telefono'];
             $Persona->Direccion = $getrow['Direccion'];
             $Persona->Rol = $getrow['Rol'];
-            $Persona->Contrasena= $getrow['Contraseña'];
+            $Persona->Contrasena = $getrow['Contrasena'];
             $Persona->Estado = $getrow['Estado'];
         }
         $Persona->Disconnect();
         return $Persona;
     }
 
-    public static function getAll() : array
+    /**
+     * @return bool
+     */
+    public function update(): bool
     {
-        return Persona::search("SELECT * FROM proyectotiendaropa.Persona");
+        $result = $this->updateRow("UPDATE merempresac.Persona SET  Nombre = ?, Apellido = ?, Genero = ?, Correo = ?, Telefono=?, Direccion=?, Rol=?, Contrasena=?, Estado=?  WHERE Documento = ?", array(
+
+                $this->Nombre,
+                $this->Apellido,
+                $this->Genero,
+                $this->Correo,
+                $this->Telefono,
+                $this->Direccion,
+                $this->Rol,
+                $this->Contrasena,
+                $this->Estado,
+                $this->Documento
+            )
+        );
+        $this->Disconnect();
+        return $result;
     }
 
-   /* public static function Persona ($Fecha) : bool
+    /**
+     * @return string
+     */
+    public function nombresCompletos()
     {
-        $result = Persona::search("SELECT Documento FROM proyectotiendaropa.Persona where Fecha = ".$Fecha);
-        if (count($result) > 0){
-            return true;
-        }else{
-            return false;
-        }
+        return $this->Nombre . " " . $this->Apellido;
     }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return "Documento: $this->Documento, Nombre: $this->Nombre, Apellido: $this->Apellido, Genero: $this->Genero, Correo: $this->Correo, Telefono: $this->Telefono,Direccion: $this->Direccion,Rol: $this->Rol,Contrasena: $this->Contrasena,Contrasena: $this->Estado";
+    }
+
+
+    /*
+    public function __toString()
+    {
+        return $this->documentPerson." ".$this->namePerson." ".$this->dateBornPerson." ".$this->rhperson
+            ." ".$this->emailPerson ." ".$this->phonePerson." ".$this->adressPerson." ".$this->genereperson." ".$this->userperson
+            ." ".$this->passwordPerson." ".$this->typePerson." ".$this->statePerson." ".$this->photoperson;
+
+
+    }
+
+
+    public function delete($idCategoria): bool
+    {
+        $CategoriaDelet = Categoria::searchForId($idCategoria);
+        $CategoriaDelet->setestado("Inactivo");
+        return $CategoriaDelet->update();
+    }
+
 */
 
+
+
+
+
+
 }
+

@@ -1,6 +1,9 @@
 <?php
 
-namespace App\Models;
+namespace app\Models;
+
+
+
 
 /**
  * Created by PhpStorm.
@@ -8,23 +11,23 @@ namespace App\Models;
  * Date: 18/06/2020
  * Time: 11:33
  */
-abstract class BasicModel {
 
+abstract class BasicModel {
     public $isConnected;
     protected $datab;
-    private $username = "dav-art";
-    private $password = " ";
+    private $username = "proyectotiendaropa";
+    private $password = "proyecto111";
     private $host = "localhost";
-    private $driver = "mysql";
+    private $driver = "mysql"; //mysql, postgres, oracle, sql server, sqlite
     private $dbname = "proyectotiendaropa";
 
-    # métodos abstractos para ABM de clases que hereden
+     //métodos abstractos para ABM de clases que hereden
     abstract protected static function search($query);
     abstract protected static function getAll();
-    abstract protected static function searchForId($id);
+    abstract protected static function searchForDocumento($Documento);
     abstract protected function create();
     abstract protected function update();
-    abstract protected function deleted($id);
+    abstract protected function deleted($Documento);
 
     public function __construct(){
         $this->isConnected = true;
@@ -40,7 +43,7 @@ abstract class BasicModel {
             $this->datab->setAttribute(\PDO::ATTR_PERSISTENT, true);
         }catch(\PDOException $e) {
             $this->isConnected = false;
-            throw new \Exception($e->getMessage());
+            throw new Exception($e->getMessage());
         }
     }
 
@@ -51,9 +54,10 @@ abstract class BasicModel {
         $this->isConnected = false;
     }
 
-    //Getting row
-    //$getrow = $database->getRow("SELECT email, username FROM users WHERE username =?", array("yusaf"));
-    public function getRow($query, $params=array()){
+
+    //Getting row -> Deveulve una sola fila de la Base de Datos.
+    //$getrow = $database->getRow("SELECT email, username FROM users WHERE username = ? and password = ?", array("diego","123456"));
+    public function getRow($query, $params = array()){
         try{
             $stmt = $this->datab->prepare($query);
             $stmt->execute($params);
@@ -77,7 +81,7 @@ abstract class BasicModel {
 
     //Getting last id insert
     //$getrows = $database->getLastId();
-    public function getLastId(){
+    public function lastInsertId(){
         try{
             return $this->datab->lastInsertId();
         }catch(PDOException $e){
@@ -102,12 +106,6 @@ abstract class BasicModel {
     //updating existing row
     //$updaterow = $database->updateRow("UPDATE users SET username = ?, email = ? WHERE id = ?", array("yusafk", "yusafk@email.com", "1"));
     public function updateRow($query, $params){
-        return $this->insertRow($query, $params);
-    }
-
-    //delete a row
-    //$deleterow = $database->deleteRow("DELETE FROM users WHERE id = ?", array("1"));
-    public function deleteRow($query, $params){
         return $this->insertRow($query, $params);
     }
 }

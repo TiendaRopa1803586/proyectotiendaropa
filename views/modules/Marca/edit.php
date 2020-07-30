@@ -1,6 +1,6 @@
 <?php
 require("../../partials/routes.php");
-require("../../../app/Controllers/marcaController.php");
+require("../../../app/Controllers/MarcaController.php");
 
 use App\Controllers\MarcaController; ?>
 <!DOCTYPE html>
@@ -28,7 +28,7 @@ use App\Controllers\MarcaController; ?>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="<?= $baseURL; ?>/Views/">proyectotiendaropa</a></li>
+                            <li class="breadcrumb-item"><a href="<?= $baseURL; ?>/views/">proyectotiendaropa</a></li>
                             <li class="breadcrumb-item active">Inicio</li>
                         </ol>
                     </div>
@@ -58,18 +58,18 @@ use App\Controllers\MarcaController; ?>
             <!-- Horizontal Form -->
             <div class="card card-info">
                 <div class="card-header">
-                    <h3 class="card-title">Form modificar marca</h3>
+                    <h3 class="card-title"> Modificar Marca</h3>
                 </div>
                 <!-- /.card-header -->
                 <?php if(!empty($_GET["id"]) && isset($_GET["id"])){ ?>
                     <p>
                     <?php
                     $DataMarca = MarcaController::searchForID($_GET["id"]);
-                    if(!empty($Datamarca)){
+                    if(!empty($DataMarca)){
                         ?>
                         <!-- form start -->
-                        <form class="form-horizontal" method="post" id="frmModificarcategoria" name="frmModificarcategoria" action="../../../app/Controllers/marcaController.php?action=edit">
-                            <input id="Codigo" name="Codigo" value="<?php echo $Datamarca->getCodigo(); ?>" hidden required="required" type="text">
+                        <form class="form-horizontal" method="post" id="frmModificarMarca" name="frmModificarMarca" action="../../../app/Controllers/MarcaController.php?action=edit">
+                            <input id="Codigo" name="Codigo" value="<?php echo $DataMarca->getCodigo(); ?>" hidden required="required" type="text">
                             <div class="card-body">
                                 <div class="form-group row">
                                     <label for="nombre" class="col-sm-2 col-form-label">Nombre</label>

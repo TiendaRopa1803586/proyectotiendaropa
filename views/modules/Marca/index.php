@@ -1,5 +1,5 @@
-?php
-require("../../../app/Controllers/marcaController.php");
+<?php
+require("../../../app/Controllers/MarcaController.php");
 use App\Controllers\MarcaController;
 
 require("../../partials/routes.php");

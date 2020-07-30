@@ -5,8 +5,7 @@
       <paths name="Ejemplo">
         <serverdata>
           <mappings>
-            <mapping local="$PROJECT_DIR$/../EjemplosADSI" web="/" />
-            <mapping deploy="\proyectotiendaropa" local="$PROJECT_DIR$" web="/proyectotiendaropa" />
+            <mapping deploy="\proyectotiendaropanancy" local="$PROJECT_DIR$" web="/proyectotiendaropanancy" />
           </mappings>
         </serverdata>
       </paths>

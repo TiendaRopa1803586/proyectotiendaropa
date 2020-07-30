@@ -16,7 +16,7 @@
                 <img src="<?= $baseURL ?>/views/components/img/usuario (2).jpg" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block">Julieht Betancourt</a>
+                <a href="#" class="d-block">Juan Camilo Tellez</a>
             </div>
         </div>
 
@@ -77,9 +77,35 @@
                     </li>
 
                     <li class="nav-item">
-                        <a href="<?= $baseURL ?>/views/modules/Descuento/index.php" class="nav-link">
+                        <a href="<?= $baseURL ?>/views/modules/Marca/index.php" class="nav-link">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Registrar</p>
+
+                            Marca
+                            <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="<?= $baseURL ?>/views/modules/Marca/index.php" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Gestionar</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="<?= $baseURL ?>/views/modules/Marca/create.php" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Registrar</p>
+                                </a>
+                            </li>
+
+                        </ul>
+
+                    </li>
+                    <li class="nav-item has-treeview menu-open">
+                        <a href="#" class="nav-link active">
+                            <i class="nav-icon far fa-user"></i>
                         </a>
                     </li>
 

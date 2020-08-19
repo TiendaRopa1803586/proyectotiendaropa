@@ -51,9 +51,9 @@
     "vlucas/phpdotenv": "^3.6",
     "ext-pdo": "*"
   },
-  "require-dev": {
+  "require-dev": {<
 
-  },
+  },>
   "autoload": {
 
   },

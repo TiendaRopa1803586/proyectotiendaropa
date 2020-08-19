@@ -15,11 +15,14 @@ namespace app\Models;
 abstract class BasicModel {
     public $isConnected;
     protected $datab;
+
     private $username = "proyectotiendaropa";
     private $password = "proyecto111";
     private $host = "localhost";
     private $driver = "mysql"; //mysql, postgres, oracle, sql server, sqlite
     private $dbname = "proyectotiendaropa";
+
+
 
      //métodos abstractos para ABM de clases que hereden
     abstract protected static function search($query);

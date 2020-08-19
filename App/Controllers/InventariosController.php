@@ -17,17 +17,17 @@ class InventariosController
     static function main($action)
     {
         if ($action == "create") {
-            UsuariosController::create();
+            InventariosController::create();
         } else if ($action == "edit") {
-            UsuariosController::edit();
+            InventariosController::edit();
         } else if ($action == "searchForDocumento") {
-            UsuariosController::searchForDocumento($_REQUEST['Documento']);
+            InventariosController::searchForDocumento($_REQUEST['Documento']);
         } else if ($action == "searchAll") {
-            UsuariosController::getAll();
+            InventariosController::getAll();
         } else if ($action == "activate") {
-            UsuariosController::activate();
+            InventariosController::activate();
         } else if ($action == "inactivate") {
-            UsuariosController::inactivate();
+            InventariosController::inactivate();
         }/*else if ($action == "login"){
             UsuariosController::login();
         }else if($action == "cerrarSession"){
@@ -40,7 +40,6 @@ class InventariosController
     {
         try {
             $arrayInventario = array();
-            $arrayInventario['Codigo'] = $_POST['Codigo'];
             $arrayInventario['Producto'] = $_POST['Producto'];
             $arrayInventario['Compra'] = $_POST['Compra'];
             $arrayInventario['Cantidad'] = $_POST['Cantidad'];
@@ -48,7 +47,7 @@ class InventariosController
             $arrayInventario['IVA'] = $_POST['IVA'];
             $arrayInventario['Talla'] = $_POST['Talla'];
             $arrayInventario['Color'] = $_POST['Color'];
-            if (!Inventario::usuarioregistrado($arrayInventario['Codigo'])) {
+            if (!Inventario::usuarioregistrado($arrayInventario['Cantidad'])) {
                 $Persona = new Inventario ($arrayInventario);
                 if ($Persona->create()) {
                     header("Location: ../../views/modules/Inventario/index.php?respuesta=correcto");

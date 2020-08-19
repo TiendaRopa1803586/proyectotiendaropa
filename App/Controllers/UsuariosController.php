@@ -5,6 +5,7 @@ require(__DIR__.'/../Models/Persona.php');
 require_once(__DIR__.'/../Models/GeneralFunctions.php');
 
 use App\Models\GeneralFunctions;
+use app\Models\Inventario;
 use app\Models\Persona;
 
 if(!empty($_GET['action'])){
@@ -40,26 +41,24 @@ class UsuariosController
     {
         try {
             $arrayUsuario = array();
-            $arrayUsuario['Documento'] = $_POST['Documento'];
-            $arrayUsuario['Nombre'] = $_POST['Nombre'];
-            $arrayUsuario['Apellido'] = $_POST['Apellido'];
-            $arrayUsuario['Genero'] = $_POST['Genero'];
-            $arrayUsuario['Correo'] = $_POST['Correo'];
-            $arrayUsuario['Telefono'] = $_POST['Telefono'];
-            $arrayUsuario['Direccion'] = $_POST['Direccion'];
-            $arrayUsuario['Rol'] = $_POST['Rol'];
-            $arrayUsuario['Contrasena'] = $_POST['Contrasena'];
-            $arrayUsuario['Estado'] = $_POST['Estado'];
-            if (!Persona::usuarioregistrado($arrayUsuario['Documento'])) {
-                $Persona = new Persona ($arrayUsuario);
+            $arrayUsuario['Codigo'] = $_POST['Codigo'];
+            $arrayUsuario['Producto'] = $_POST['Producto'];
+            $arrayUsuario['Compra'] = $_POST['Compra'];
+            $arrayUsuario['Cantidad'] = $_POST['Cantidad'];
+            $arrayUsuario['Precio'] = $_POST['Precio'];
+            $arrayUsuario['IVA'] = $_POST['IVA'];
+            $arrayUsuario['Talla'] = $_POST['Talla'];
+            $arrayUsuario['Color'] = $_POST['Color'];
+            if (!Inventario::usuarioregistrado($arrayUsuario['Codigo'])) {
+                $Persona = new Inventario($arrayUsuario);
                 if ($Persona->create()) {
-                    header("Location: ../../views/modules/Persona/index.php?respuesta=correcto");
+                    header("Location: ../../views/modules/Inventario/index.php?respuesta=correcto");
                 }
             } else {
-                header("Location: ../../views/modules/Persona/create.php?respuesta=error&mensaje=Usuario ya registrado");
+                header("Location: ../../views/modules/Inventario/create.php?respuesta=error&mensaje=Usuario ya registrado");
             }
         } catch (Exception $e) {
-            header("Location: ../../views/modules/Persona/create.php?respuesta=error&mensaje=" . $e->getMessage());
+            header("Location: ../../views/modules/Inventario/create.php?respuesta=error&mensaje=" . $e->getMessage());
         }
     }
 
@@ -82,7 +81,7 @@ class UsuariosController
             $Persona = new Persona($arrayUsuario);
             $Persona->update();
 
-            header("Location: ../../views/modules/Persona/index.php" . $Persona->getDocumento() . "&respuesta=correcto");
+            header("Location: ../../views/modules/Persona/show.php?id=".$Persona->getDocumento()."&respuesta=correcto");
         } catch (\Exception $e) {
             GeneralFunctions::console( $e, 'error', 'errorStack');
             //var_dump($e);

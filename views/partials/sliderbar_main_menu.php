@@ -1,7 +1,7 @@
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="../../index3.html" class="brand-link">
+    <a href="../index.php" class="brand-link">
         <img src="<?= $baseURL ?>/views/components/img/weber-icon.png"
              alt="AdminLTE Logo"
              class="brand-image img-circle elevation-3"
@@ -17,7 +17,7 @@
                 <img src="<?= $baseURL ?>/views/components/img/user.png" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block">David Angarita</a>
+                <a href="#" class="d-block">Diego Ojeda</a>
             </div>
         </div>
 
@@ -35,8 +35,8 @@
                     </a>
                 </li>
                 <li class="nav-header">Modulos Principales</li>
-                <li class="nav-item has-treeview menu-open">
-                    <a href="#" class="nav-link active">
+                <li class="nav-item has-treeview <?= strpos($_SERVER['REQUEST_URI'],'usuarios') ? 'menu-open' : '' ?>">
+                    <a href="#" class="nav-link <?= strpos($_SERVER['REQUEST_URI'],'usuarios') ? 'active' : '' ?>">
                         <i class="nav-icon far fa-user"></i>
                         <p>
                             Usuarios
@@ -57,8 +57,10 @@
                             </a>
                         </li>
                     </ul>
-                    <a href="#" class="nav-link active">
-                        <i class="nav-icon far fa-user"></i>
+                </li>
+                <li class="nav-item has-treeview <?= strpos($_SERVER['REQUEST_URI'],'Persona') ? 'menu-open' : '' ?>">
+                    <a href="#" class="nav-link <?= strpos($_SERVER['REQUEST_URI'],'Persona') ? 'active' : '' ?>">
+                        <i class="nav-icon fas fa-dolly"></i>
                         <p>
                             Inventario
                             <i class="fas fa-angle-left right"></i>
@@ -73,6 +75,29 @@
                         </li>
                         <li class="nav-item">
                             <a href="<?= $baseURL ?>/views/modules/Inventario/create.php" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Registrar</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item has-treeview <?= strpos($_SERVER['REQUEST_URI'],'Persona') ? 'menu-open' : '' ?>">
+                    <a href="#" class="nav-link <?= strpos($_SERVER['REQUEST_URI'],'Persona') ? 'active' : '' ?>">
+                        <i class="nav-icon fas fa-store"></i>
+                        <p>
+                            Ventas
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="<?= $baseURL ?>/views/modules/Persona/index.php" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Gestionar</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?= $baseURL ?>/views/modules/Persona/create.php" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Registrar</p>
                             </a>

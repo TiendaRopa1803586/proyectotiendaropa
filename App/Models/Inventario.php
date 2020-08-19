@@ -58,7 +58,7 @@ class Inventario extends BasicModel
         $getrows = $tmp->getRows($query);
 
         foreach ($getrows as $valor) {
-            $Inventario = new Persona();
+            $Inventario = new Inventario();
             $Inventario->Codigo = $valor['Codigo'];
             $Inventario->Producto = $valor['Producto'];
             $Inventario->Compra = $valor['Compra'];
@@ -80,7 +80,7 @@ class Inventario extends BasicModel
      */
     public static function usuarioregistrado ($Codigo): bool
     {
-        $result = Inventario::search("SELECT * FROM merempresac.Inventario where Documento = ".$Codigo );
+        $result = Inventario::search("SELECT * FROM merempresac.Inventario where Codigo = ".$Codigo );
         if (count($result) > 0) {
             return true;
         } else {
@@ -232,15 +232,14 @@ class Inventario extends BasicModel
      */
    public function create(): bool
     {
-        $result = $this->insertRow("INSERT INTO merempresac.Inventario VALUES (null, ?, ?, ?, ?, ?, ?, ?)", array(
+        $result = $this->insertRow("INSERT INTO merempresac.Inventario VALUES (NULL, ?, ?, ?, ?, ?, ?,?)", array(
                 $this->Producto,
                 $this->Compra,
                 $this->Cantidad,
                 $this->Precio,
                 $this->IVA,
                 $this->Talla,
-                $this->Color,
-                $this->Codigo
+                $this->Color
 
             )
 

@@ -1,11 +1,13 @@
 <?php
 
 namespace App\Controllers;
-require(__DIR__.'/../Models/marca.php');
-use App\Models\marca;
+require(__DIR__.'/../Models/Marca.php');
+
+use App\Models\Categoria;
+use App\Models\Marca;
 
 if(!empty($_GET['action'])){
-    marcaController::main($_GET['action']);
+    MarcaController::main($_GET['action']);
 }
 
     class MarcaController{
@@ -39,16 +41,16 @@ if(!empty($_GET['action'])){
             $arrayMarca['Nombre'] = $_POST['Nombre'];
             $arrayMarca['Descripcion'] = $_POST['Descripcion'];
             $arrayMarca['Estado'] = 'Activo';
-            if(Marca::MarcaRegistrado($arrayMarca['Nombre'])){
+            if(!Marca::MarcaRegistrado($arrayMarca['Nombre'])){
                 $Marca = new Marca ($arrayMarca);
                 if($Marca->create()){
                     header("Location: ../../views/modules/Marca/index.php?respuesta=correcto");
                 }
             }else{
-                header("Location: ../../views/modules/marca/create.php?respuesta=error&mensaje=Categoria ya registrada");
+                header("Location: ../../views/modules/Marca/create.php?respuesta=error&mensaje=Marca ya registrada");
             }
         } catch (Exception $e) {
-            header("Location: ../../views/modules/Marcq/create.php?respuesta=error&mensaje=" . $e->getMessage());
+            header("Location: ../../views/modules/Marca/create.php?respuesta=error&mensaje=" . $e->getMessage());
         }
     }
 
@@ -96,7 +98,7 @@ if(!empty($_GET['action'])){
             }
         } catch (\Exception $e) {
             //var_dump($e);
-            header("Location: ../../views/modules/Mraca/index.php?respuesta=error&mensaje" . $e-> getMessage());
+            header("Location: ../../views/modules/Marca/index.php?respuesta=error&mensaje" . $e-> getMessage());
         }
     }
 
@@ -116,5 +118,41 @@ if(!empty($_GET['action'])){
             var_dump($e);
             //header("Location: ../Vista/modules/Marca/manager.php?respuesta=error");
         }
+    }
+    private static function MarcaIsInArray($codigoMarca, $ArrMarca){
+        if(count($ArrMarca) > 0){
+            foreach ($ArrMarca as $Marca){
+                if($Marca->getCodigo() == $codigoMarca){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    static public function selectMarca ($isMultiple=false,
+                                            $isRequired=true,
+                                            $Id="CodigoMarca",
+                                            $Nombre="CodigoMa++rca",
+                                            $defaultValue="",
+                                            $class="form-control",
+                                            $where="",
+                                            $arrExcluir = array()){
+        $arrMarca = array();
+        if($where != ""){
+            $base = "SELECT * FROM Marca WHERE ";
+            $arrMarca = Marca::search($base.' '.$where);
+        }else{
+            $arrMarca = Marca::getAll();
+        }
+
+        $htmlSelect = "<select ".(($isMultiple) ? "multiple" : "")." ".(($isRequired) ? "required" : "")." id= '".$Id."' name='".$Nombre."' class='".$class."' style='width: 100%;'>";
+        $htmlSelect .= "<option value='' >Seleccione</option>";
+        if(count($arrMarca) > 0){
+            foreach ($arrMarca as $Marca)
+                if (!MarcaController::MarcaIsInArray($Marca->getCodigo(),$arrExcluir))
+                    $htmlSelect .= "<option ".(($Marca != "") ? (($defaultValue == $Marca->getCodigo()) ? "selected" : "" ) : "")." value='".$Marca->getCodigo()."'>".$Marca->getNombre()."</option>";
+        }
+        $htmlSelect .= "</select>";
+        return $htmlSelect;
     }
 }

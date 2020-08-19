@@ -131,7 +131,7 @@ class Marca extends BasicModel
     public static function search($query) : array
     {
         $arrMarca = array();
-        $tmp = new Categoria();
+        $tmp = new Marca();
         $getrows = $tmp->getRows($query);
 
         foreach ($getrows as $valor) {

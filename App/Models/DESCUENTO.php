@@ -3,7 +3,7 @@
 
 namespace App\Models;
 use http\QueryString;
-require('BasicModel.php');
+require_once('BasicModel.php');
 #Creacion de la clase con herencia de la clase Basic Model
 
 class DESCUENTO extends BasicModel

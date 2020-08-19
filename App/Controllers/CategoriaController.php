@@ -117,4 +117,44 @@ class CategoriaController{
             //header("Location: ../Vista/modules/Categoria/manager.php?respuesta=error");
         }
     }
+
+    private static function categoriaIsInArray($codigoCategoria, $ArrCategoria){
+        if(count($ArrCategoria) > 0){
+            foreach ($ArrCategoria as $Categoria){
+                if($Categoria->getCodigo() == $codigoCategoria){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    static public function selectCategoria ($isMultiple=false,
+                                            $isRequired=true,
+                                            $id="codigoCategoia",
+                                            $nombre="codigoCategoia",
+                                            $defaultValue="",
+                                            $class="form-control",
+                                            $where="",
+                                            $arrExcluir = array()){
+        $arrCategorias = array();
+        if($where != ""){
+            $base = "SELECT * FROM categoria WHERE ";
+            $arrCategorias = Categoria::search($base.' '.$where);
+        }else{
+            $arrCategorias = Categoria::getAll();
+        }
+
+        $htmlSelect = "<select ".(($isMultiple) ? "multiple" : "")." ".(($isRequired) ? "required" : "")." id= '".$id."' name='".$nombre."' class='".$class."' style='width: 100%;'>";
+        $htmlSelect .= "<option value='' >Seleccione</option>";
+        if(count($arrCategorias) > 0){
+            foreach ($arrCategorias as $categoria)
+                if (!CategoriaController::categoriaIsInArray($categoria->getCodigo(),$arrExcluir))
+                    $htmlSelect .= "<option ".(($categoria != "") ? (($defaultValue == $categoria->getCodigo()) ? "selected" : "" ) : "")." value='".$categoria->getCodigo()."'>".$categoria->getNombre()."</option>";
+        }
+        $htmlSelect .= "</sçelect>";
+        return $htmlSelect;
+    }
+
+
 }

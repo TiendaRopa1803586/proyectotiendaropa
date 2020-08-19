@@ -3,7 +3,7 @@
 
 namespace App\Models;
 use http\QueryString;
-require('BasicModel.php');
+require_once('BasicModel.php');
 #Creacion de la clase con herencia de la clase Basic Model
 
 class Categoria extends BasicModel
@@ -177,12 +177,7 @@ class Categoria extends BasicModel
             return false;
         }
     }
-    public function __toString()
-    {
-        return $this->documentPerson." ".$this->namePerson." ".$this->dateBornPerson." ".$this->rhperson
-            ." ".$this->emailPerson ." ".$this->phonePerson." ".$this->adressPerson." ".$this->genereperson." ".$this->userperson
-            ." ".$this->passwordPerson." ".$this->typePerson." ".$this->statePerson." ".$this->photoperson;
-    }
+
 
 
     public function delete($idCategoria): bool

@@ -1,11 +1,11 @@
 <?php
-require("../../../app/Controllers/MarcaController.php");
-use App\Controllers\MarcaController;
+require("../../../app/Controllers/SubcategoriaController.php");
+use App\Controllers\SubcategoriaController;
 
 require("../../partials/routes.php");
 
 
-//use App\Controllers\MarcaController; ?>
+//use App\Controllers\SubcategoriaController; ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -52,9 +52,9 @@ require("../../partials/routes.php");
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                         <h5><i class="icon fas fa-check"></i> Correcto!</h5>
                         <?php if ($_GET['action'] == "create"){ ?>
-                            La marca ha sido creada con exito!
+                            La Subcategoria  ha sido creada con exito!
                         <?php }else if($_GET['action'] == "update"){ ?>
-                            Los datos de la marca han sido actualizados correctamente!
+                            Los datos de la subcategoria han sido actualizados correctamente!
                         <?php } ?>
                     </div>
                 <?php } ?>
@@ -63,7 +63,7 @@ require("../../partials/routes.php");
             <!-- Default box -->
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Gestionar Marca</h3>
+                    <h3 class="card-title">Gestionar Subategoria</h3>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
                             <i class="fas fa-minus"></i></button>
@@ -76,42 +76,44 @@ require("../../partials/routes.php");
                         <div class="col-auto mr-auto"></div>
                         <div class="col-auto">
                             <a role="button" href="create.php" class="btn btn-primary float-right" style="margin-right: 5px;">
-                                <i class="fas fa-plus"></i> Crear Marca
+                                <i class="fas fa-plus"></i> Crear Subcategoria
                             </a>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col">
-                            <table id="tblMarca" class="datatable table table-bordered table-striped">
+                            <table id="tblSubcategoria" class="datatable table table-bordered table-striped">
                                 <thead>
                                 <tr>
                                     <th>Id</th>
                                     <th>Nombre</th>
                                    <th>Descripción</th>
                                     <th>Estado</th>
+                                    <th>Categoria</th>
                                     <th>Acciones</th>
-                                    <th>Acciones</th>
+
                                 </tr>
 
 
                                 </thead>
                                 <tbody>
                                 <?php
-                                $arrMarca = MarcaController::getAll();
-                                foreach ($arrMarca as $Marca){
+                                $arrSubcategoria = SubcategoriaController::getAll();
+                                foreach ($arrSubcategoria as $Subcategoria){
                                     ?>
                                     <tr>
-                                        <td><?php echo $Marca->getCodigo(); ?></td>
-                                        <td><?php echo $Marca->getNombre(); ?></td>
-                                        <td><?php echo $Marca->getDescripcion(); ?></td>
-                                        <td><?php echo $Marca->getEstado(); ?></td>
+                                        <td><?php echo $Subcategoria->getCodigo(); ?></td>
+                                        <td><?php echo $Subcategoria->getNombre(); ?></td>
+                                        <td><?php echo $Subcategoria->getDescripcion(); ?></td>
+                                        <td><?php echo $Subcategoria->getEstado(); ?></td>
+                                        <td><?php echo $Subcategoria->getCategoria()->getNombre(); ?></td>
                                         <td>
-                                            <a href="edit.php?id=<?php echo $Marca->getCodigo(); ?>" type="button" data-toggle="tooltip" title="Actualizar" class="btn docs-tooltip btn-primary btn-xs"><i class="fa fa-edit"></i></a>
-                                            <a href="show.php?id=<?php echo $Marca->getCodigo(); ?>" type="button" data-toggle="tooltip" title="Ver" class="btn docs-tooltip btn-warning btn-xs"><i class="fa fa-eye"></i></a>
-                                            <?php if ($Marca->getEstado() != "activo"){ ?>
-                                                <a href="../../../app/Controllers/marcaController.php?action=activate&Id=<?php echo $Marca->getCodigo(); ?>" type="button" data-toggle="tooltip" title="Activar" class="btn docs-tooltip btn-success btn-xs"><i class="fa fa-check-square"></i></a>
+                                            <a href="edit.php?id=<?php echo $Subcategoria->getCodigo(); ?>" type="button" data-toggle="tooltip" title="Actualizar" class="btn docs-tooltip btn-primary btn-xs"><i class="fa fa-edit"></i></a>
+                                            <a href="show.php?id=<?php echo $Subcategoria->getCodigo(); ?>" type="button" data-toggle="tooltip" title="Ver" class="btn docs-tooltip btn-warning btn-xs"><i class="fa fa-eye"></i></a>
+                                            <?php if ($Subcategoria->getEstado() != "activo"){ ?>
+                                                <a href="../../../app/Controllers/SubcategoriaController.php?action=activate&Id=<?php echo $Subcategoria->getCodigo(); ?>" type="button" data-toggle="tooltip" title="Activar" class="btn docs-tooltip btn-success btn-xs"><i class="fa fa-check-square"></i></a>
                                             <?php }else{ ?>
-                                                <a type="button" href="../../../app/Controllers/marcaController.php?action=inactivate&Id=<?php echo $Marca->getCodigo(); ?>" data-toggle="tooltip" title="Inactivar" class="btn docs-tooltip btn-danger btn-xs"><i class="fa fa-times-circle"></i></a>
+                                                <a type="button" href="../../../app/Controllers/SubcategoriaController.php?action=inactivate&Id=<?php echo $Subcategoria->getCodigo(); ?>" data-toggle="tooltip" title="Inactivar" class="btn docs-tooltip btn-danger btn-xs"><i class="fa fa-times-circle"></i></a>
                                             <?php } ?>
                                         </td>
                                     </tr>
@@ -123,6 +125,7 @@ require("../../partials/routes.php");
                                     <th>Nombre</th>
                                     <th>Descripcion</th>
                                     <th>Estado</th>
+                                    <th>Categoria</th>
                                     <th>Acciones</th>
                                 </tr>
                                 </tfoot>
@@ -177,7 +180,7 @@ require("../../partials/routes.php");
             ],
             "pagingType": "full_numbers",
             "responsive": true,
-            "stateSav e" : true, //Guardar la configuracion de marca
+            "stateSav e" : true, //Guardar la configuracion de Supcategoria
         });
     });
 </script>

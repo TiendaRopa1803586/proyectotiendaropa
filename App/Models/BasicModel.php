@@ -13,7 +13,7 @@ abstract class BasicModel {
     public $isConnected;
     protected $datab;
     private $username = "merempresac";
-    private $password = "nancy";
+    private $password = "";
     private $host = "localhost";
     private $driver = "mysql";
     private $dbname = "merempresac";

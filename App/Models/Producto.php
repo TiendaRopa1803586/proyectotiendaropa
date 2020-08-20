@@ -17,8 +17,8 @@ class Producto extends BasicModel
     private $Nombre;
     private $Importado;
     private $Descripcion;
-    private Marca  $Marca;
-    private Subcategoria  $Subcategoria;
+    private $Marca;
+    private $Subcategoria;
     private $Estado;
 
 
@@ -133,7 +133,7 @@ class Producto extends BasicModel
      */
     public function getSubcategoria(): ? Subcategoria
     {
-        return $this->Subcatgeoria;
+        return $this->Subcategoria;
     }
 
     /**

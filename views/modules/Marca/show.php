@@ -1,6 +1,6 @@
 <?php
 require("../../partials/routes.php");
-require("../../../app/Controllers/marcaController.php");
+require("../../../app/Controllers/MarcaController.php");
 
 use App\Controllers\MarcaController; ?>
 <!DOCTYPE html>

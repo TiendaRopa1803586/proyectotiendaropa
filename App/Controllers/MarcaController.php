@@ -3,9 +3,9 @@
 namespace App\Controllers;
 require(__DIR__.'/../Models/Marca.php');
 
-use App\Models\Categoria;
-use App\Models\Marca;
 
+use App\Models\Marca;
+use App\Models\Categoria;
 if(!empty($_GET['action'])){
     MarcaController::main($_GET['action']);
 }
@@ -19,7 +19,7 @@ if(!empty($_GET['action'])){
         } else if ($action == "edit") {
             MarcaController::edit();
         } else if ($action == "searchForID") {
-            MarcaController::searchForID($_REQUEST['idMarca']);
+            MarcaController::searchForID($_REQUEST['Marca']);
         } else if ($action == "searchAll") {
             MarcaController::getAll();
         } else if ($action == "activate") {
@@ -131,21 +131,21 @@ if(!empty($_GET['action'])){
     }
     static public function selectMarca ($isMultiple=false,
                                             $isRequired=true,
-                                            $Id="CodigoMarca",
-                                            $Nombre="CodigoMa++rca",
+                                            $id="Marca",
+                                            $nombre="Marca",
                                             $defaultValue="",
                                             $class="form-control",
                                             $where="",
                                             $arrExcluir = array()){
         $arrMarca = array();
         if($where != ""){
-            $base = "SELECT * FROM Marca WHERE ";
+            $base = "SELECT * FROM marca WHERE ";
             $arrMarca = Marca::search($base.' '.$where);
         }else{
             $arrMarca = Marca::getAll();
         }
 
-        $htmlSelect = "<select ".(($isMultiple) ? "multiple" : "")." ".(($isRequired) ? "required" : "")." id= '".$Id."' name='".$Nombre."' class='".$class."' style='width: 100%;'>";
+        $htmlSelect = "<select ".(($isMultiple) ? "multiple" : "")." ".(($isRequired) ? "required" : "")." id= '".$id."' name='".$nombre."' class='".$class."' style='width: 100%;'>";
         $htmlSelect .= "<option value='' >Seleccione</option>";
         if(count($arrMarca) > 0){
             foreach ($arrMarca as $Marca)

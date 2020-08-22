@@ -4,7 +4,6 @@ namespace App\Controllers;
 require(__DIR__.'/../Models/Subcategoria.php');
 
 use App\Models\Categoria;
-use App\Models\Marca;
 use App\Models\Subcategoria;
 
 if(!empty($_GET['action'])){
@@ -135,8 +134,8 @@ class SubcategoriaController{
     }
     static public function selectSubcategoria ($isMultiple=false,
                                         $isRequired=true,
-                                        $id="CodigoSubcategoria",
-                                        $nombre="CodigoSubcategoria",
+                                        $id="Subcategoria",
+                                        $nombre="Subcategoria",
                                         $defaultValue="",
                                         $class="form-control",
                                         $where="",

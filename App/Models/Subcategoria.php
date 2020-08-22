@@ -2,7 +2,7 @@
 
 
 namespace App\Models;
-
+require_once (__DIR__ .'/../../vendor/autoload.php');
 require_once('BasicModel.php');
 require_once('Categoria.php');
 #Creacion de la clase con herencia de la clase Basic Model
@@ -15,7 +15,7 @@ class Subcategoria extends BasicModel
     private $Nombre;
     private $Descripcion;
     private $Estado;
-    private  Categoria  $Categoria;
+    private $Categoria;
     /**
      *Categoria constructor.
      * @param $Codigo

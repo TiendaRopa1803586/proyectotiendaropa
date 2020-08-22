@@ -3,11 +3,14 @@
 
 namespace App\Models;
 
-require_once('BasicModel.php');
-require_once('Categoria.php');
-#Creacion de la clase con herencia de la clase Basic Model
 
-use App\Models\Marca;
+require_once (__DIR__ .'/../../vendor/autoload.php');
+require_once ('marca.php');
+require_once ('Subcategoria.php');
+require_once('BasicModel.php');
+
+
+use App\Models\marca;
 use App\Models\Subcategoria;
 
 
@@ -37,11 +40,11 @@ class Producto extends BasicModel
     public function __construct($Producto = array())
     {
         parent::__construct(); //Llama al contructor padre "la clase conexion" para conectarme a la BD
-        $this->Codigo = $Producto['Codigo'] ?? null;
+        $this->Codigo = $Producto['Codigo'] ?? 0;
         $this->Nombre = $Producto ['Nombre'] ?? null;
         $this->Importado = $Producto['Importado'] ?? null;
-        $this->Marca = $Producto['Marca'] ?? new Marca();
-        $this->Subcatgeoria = $Producto['Subcatgeoria'] ?? new Subcategoria();
+        $this->Marca = $Producto['Marca'] ?? null;
+        $this->Subcategoria = $Producto['Subcategoria'] ?? null;
         $this->Descripcion = $Producto['Descripcion'] ?? null;
         $this->Estado = $Producto['Estado'] ?? null;
 
@@ -139,9 +142,9 @@ class Producto extends BasicModel
     /**
      * @param Subcategoria $Producto
      */
-    public function setSubcategoria(?Subcategoria $SProducto): void
+    public function setSubcategoria(?Subcategoria $Producto): void
     {
-        $this->Producto = $SProducto;
+        $this->Producto = $Producto;
     }
 
     /**
@@ -166,16 +169,17 @@ class Producto extends BasicModel
 
     public function create() : bool
     {
-        $result = $this->insertRow("INSERT INTO merempresac.Producto VALUES (NULL, ?, ?, ?, ?,?,?)", array(
+        $result = $this->insertRow("INSERT INTO merempresac.producto VALUES (NULL, ?, ?, ?, ?, ?, ?)", array(
                 $this->Nombre,
                 $this->Importado,
                 $this->Descripcion,
                 $this->Marca->getCodigo(),
                 $this->Subcategoria->getCodigo(),
-                $this->Estado,
+                $this->Estado
 
             )
         );
+        $this->setCodigo(($result) ? $this->getLastId() : null);
         $this->Disconnect();
         return $result;
     }
@@ -234,7 +238,7 @@ class Producto extends BasicModel
             $Producto ->Nombre = $getrow['Nombre'];
             $Producto ->Importado = $getrow['Importado'];
             $Producto->Descripcion = $getrow['Descripcion'];
-            $Producto->Marca = Marca::searchForId($getrow['Marcq']);
+            $Producto->Marca = Marca::searchForId($getrow['Marca']);
             $Producto->Subcategoria  = Subcategoria::searchForId($getrow['Subcategoria']);
             $Producto->Estado = $getrow['Estado'];
 
@@ -262,7 +266,7 @@ class Producto extends BasicModel
     public function __toString()
     {
         return $this->getNombre()." ".$this->getImportado()." ".$this->getDescripcion()."".
-               $this->getMarca()->getNombre()."".$this->getSupCategoria()->getNombre()." ".
+               $this->getMarca()->getNombre()."".$this->getSubcategoria()->getNombre()." ".
                $this->getEstado()." ".$this->getCodigo();
     }
 

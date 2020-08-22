@@ -1,17 +1,17 @@
 <?php
 
-require_once("../../../App/Controllers/ProductoController.php");
+require_once("../../../App/Controllers/SubcategoriaController.php");
+require_once("../../../App/Controllers/MarcaController.php");
+require("../../partials/routes.php");
 
-require_once("../../../App/Models/BasicModel.php");
-
-
-
-use App\Controllers\MarcaController;
 use App\Controllers\SubcategoriaController;
+use App\Controllers\MarcaController;
+
+use App\Controllers\ProductoController;
 
 
 
-require("../../partials/routes.php"); ?>
+ ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -66,7 +66,7 @@ require("../../partials/routes.php"); ?>
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form class="form-horizontal" method="post" id="frmCreateProducto" name="frmCreateProducto" action="../../../app/Controllers/ProductoController.php?action=create">
+                <form class="form-horizontal" method="post" id="frmCreateProducto" name="frmCreateProducto" action="../../../App/Controllers/ProductoController.php?action=create">
                     <div class="card-body">
                         <div class="form-group row">
                             <label for="nombre" class="col-sm-2 col-form-label">Nombre</label>
@@ -95,7 +95,7 @@ require("../../partials/routes.php"); ?>
                                     true,
                                     'Marca',
                                     'Marca',
-                                    (!empty($dataProducto)) ? $dataProducto->getMarca()->getId() : '',
+                                    (!empty($dataProducto)) ? $dataProducto->getMarca()->getCodigo() : '',
                                     'form-control select2bs4 select2-info',
                                     "Estado = 'Activo'")
                                 ?>
@@ -108,7 +108,7 @@ require("../../partials/routes.php"); ?>
                                     true,
                                     'Subcategoria',
                                     'Subcategoria',
-                                    (!empty($dataVenta)) ? $dataVenta->getClienteId()->getId() : '',
+                                    (!empty($dataProducto)) ? $dataProducto->getSubcategoria()->getCodigo() : '',
                                     'form-control select2bs4 select2-info',
                                     "Estado = 'Activo'")
                                 ?>

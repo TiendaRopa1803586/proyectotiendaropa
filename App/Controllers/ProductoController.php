@@ -3,10 +3,12 @@
 namespace App\Controllers;
 require(__DIR__.'/../Models/Producto.php');
 
-use App\Models\GeneralFunctions;
+
+
+
 use App\Models\Marca;
-use App\Models\Producto;
 use App\Models\Subcategoria;
+use App\Models\Producto;
 
 if(!empty($_GET['action'])){
     ProductoController::main($_GET['action']);
@@ -21,7 +23,7 @@ class ProductoController{
         } else if ($action == "edit") {
             ProductoController::edit();
         } else if ($action == "searchForID") {
-            ProductoController::searchForID($_REQUEST['idProducto']);
+            ProductoController::searchForID($_REQUEST['codigoProducto']);
         } else if ($action == "searchAll") {
             ProductoController::getAll();
         } else if ($action == "activate") {
@@ -47,9 +49,10 @@ class ProductoController{
             $arrayProducto['Subcategoria'] = Subcategoria::searchForId($_POST['Subcategoria']);
             $arrayProducto['Estado'] = 'Activo';
 
+            $Producto = new Producto($arrayProducto);
 
             if(!Producto::ProductoRegistrado($arrayProducto['Nombre'])){
-                $Producto = new Producto ($arrayProducto);
+
                 if($Producto->create()){
                     header("Location: ../../views/modules/Producto/index.php?respuesta=correcto");
                 }

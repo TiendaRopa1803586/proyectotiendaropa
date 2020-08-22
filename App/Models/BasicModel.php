@@ -12,8 +12,8 @@ abstract class BasicModel {
 
     public $isConnected;
     protected $datab;
-    private $username = "merempresac";
-    private $password = "";
+    private $username = "proyectotiendaropa";
+    private $password = "proyecto111";
     private $host = "localhost";
     private $driver = "mysql";
     private $dbname = "merempresac";

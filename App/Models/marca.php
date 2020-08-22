@@ -3,7 +3,8 @@
 
 namespace App\Models;
 use http\QueryString;
-require('BasicModel.php');
+require_once (__DIR__ .'/../../vendor/autoload.php');
+require_once('BasicModel.php');
 #Creacion de la clase con herencia de la clase Basic Model
 
 class Marca extends BasicModel
@@ -151,7 +152,7 @@ class Marca extends BasicModel
         $Marca= null;
         if ($Codigo > 0){
             $Marca= new Marca();
-            $getrow = $Marca->getRow("SELECT * FROM merempresac.Marca WHERE Codigo =?", array($Codigo));
+            $getrow = $Marca->getRow("SELECT * FROM merempresac.marca WHERE Codigo =?", array($Codigo));
             $Marca->Codigo = $getrow['Codigo'];
             $Marca->Nombre = $getrow['Nombre'];
             $Marca->Descripcion = $getrow['Descripcion'];
@@ -165,7 +166,7 @@ class Marca extends BasicModel
 
     public static function getAll() : array
     {
-        return Marca::search("SELECT * FROM merempresac.Marca");
+        return Marca::search("SELECT * FROM merempresac.marca");
     }
 
     public static function MarcaRegistrado ($Nombre) : bool
@@ -177,11 +178,9 @@ class Marca extends BasicModel
             return false;
         }
     }
-    public function __toString()
+    public function __toString() : string
     {
-        return $this->documentPerson." ".$this->namePerson." ".$this->dateBornPerson." ".$this->rhperson
-            ." ".$this->emailPerson ." ".$this->phonePerson." ".$this->adressPerson." ".$this->genereperson." ".$this->userperson
-            ." ".$this->passwordPerson." ".$this->typePerson." ".$this->statePerson." ".$this->photoperson;
+            return "Codigo: $this->Codigo, Nombre: $this->Nombre, Descripcion: $this->Descripcion, Estado: $this->Estado";
     }
 
 

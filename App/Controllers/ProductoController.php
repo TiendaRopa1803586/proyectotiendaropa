@@ -2,10 +2,10 @@
 
 namespace App\Controllers;
 require(__DIR__.'/../Models/Producto.php');
+require(__DIR__.'/../Models/GeneralFunctions.php');
 
 
-
-
+use App\Models\GeneralFunctions;
 use App\Models\Marca;
 use App\Models\Subcategoria;
 use App\Models\Producto;
@@ -48,39 +48,41 @@ class ProductoController{
             $arrayProducto['Marca'] = Marca::searchForId($_POST['Marca']);
             $arrayProducto['Subcategoria'] = Subcategoria::searchForId($_POST['Subcategoria']);
             $arrayProducto['Estado'] = 'Activo';
+            var_dump("Array", $arrayProducto);
 
             $Producto = new Producto($arrayProducto);
-
-            if(!Producto::ProductoRegistrado($arrayProducto['Nombre'])){
-
+            if(!Producto::productoRegistrado($arrayProducto['Nombre'])){
+                $Producto = new Producto($arrayProducto);
                 if($Producto->create()){
                     header("Location: ../../views/modules/Producto/index.php?respuesta=correcto");
                 }
             }else{
-                header("Location: ../../views/modules/Producto/create.php?respuesta=error&mensaje=Producto ya registrada");
+                header("Location: ../../views/modules/Producto/create.php?respuesta=error&mensaje=Producto ya registrado");
             }
         } catch (Exception $e) {
+            GeneralFunctions::console( $e, 'error', 'errorStack');
             header("Location: ../../views/modules/Producto/create.php?respuesta=error&mensaje=" . $e->getMessage());
         }
     }
 
     static public function edit (){
         try {
-            $arrayProducto = array();
-            $arrayProducto['Nombre'] = $_POST['Nombre'];
-            $arrayProducto['Importado'] = $_POST['Importado'];
-            $arrayProducto['Descripcion'] = $_POST['Descripcion'];
-            $arrayProducto['Marca'] = Marca::searchForId($_POST['Marca']);
-            $arrayProducto['Subcategoria'] = Subcategoria::searchForId($_POST['Subcategoria']);
-            $arrayProducto['Estado'] = 'Activo';
+            $arrayVenta = array();
+            $arrayVenta['Nombre'] = $_POST['Nombre'];
+            $arrayVenta['Importado'] = $_POST['Importado'];
+            $arrayVenta['Descripcion'] = $_POST['Descripcion'];
+            $arrayVenta['Marca'] = Marca::searchForId($_POST['Marca']);
+            $arrayVenta['Subcategoria'] = Subcategoria::searchForId($_POST['Subcategoria']);
+            $arrayVenta['Estado'] = $_POST['Estado'];
+            $arrayVenta['Codigo'] = $_POST['Codigo'];
 
-            $Producto = new Producto($arrayProducto);
-            $Producto->update();
+            $Venta = new Producto($arrayVenta);
+            $Venta->update();
 
-            header("Location: ../../views/modules/Producto/show.php?id=".$Producto->getCodigo()."&respuesta=correcto");
+            header("Location: ../../views/modules/Producto/show.php?id=".$Venta->getCodigo()."&respuesta=correcto");
         } catch (\Exception $e) {
-            var_dump($e);
-            //header("Location: ../../views/modules/Producto/edit.php?respuesta=error&mensaje" . $e->getMessage());
+            GeneralFunctions::console( $e, 'error', 'errorStack');
+            header("Location: ../../views/modules/Producto/edit.php?respuesta=error&mensaje=".$e->getMessage());
         }
     }
 //funcion activa de la Producto
@@ -129,7 +131,7 @@ class ProductoController{
             return Producto::getAll();
         } catch (\Exception $e) {
             var_dump($e);
-            //header("Location: ../Vista/modules/Producto/manager.php?respuesta=error");
+            header("Location: ../views/modules/Producto/manager.php?respuesta=error");
         }
     }
 }

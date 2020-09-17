@@ -93,7 +93,10 @@ abstract class BasicModel {
                 $this->__construct();
             }
             $stmt = $this->datab->prepare($query);
-            return $stmt->execute($params);
+            for ($i=0;$i<count($params);$i++){
+                $stmt->bindValue($i+1, $params[$i]);
+            }
+            return $stmt->execute();
         }catch(PDOException $e){
             throw new Exception($e->getMessage());
         }

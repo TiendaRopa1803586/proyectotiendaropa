@@ -40,13 +40,14 @@ class Producto extends BasicModel
     public function __construct($Producto = array())
     {
         parent::__construct(); //Llama al contructor padre "la clase conexion" para conectarme a la BD
-        $this->Codigo = $Producto['Codigo'] ?? 0;
+        $this->Codigo = $Producto['Codigo'] ?? null;
         $this->Nombre = $Producto ['Nombre'] ?? null;
         $this->Importado = $Producto['Importado'] ?? null;
         $this->Marca = $Producto['Marca'] ?? null;
         $this->Subcategoria = $Producto['Subcategoria'] ?? null;
         $this->Descripcion = $Producto['Descripcion'] ?? null;
         $this->Estado = $Producto['Estado'] ?? null;
+
 
     }
     /* Metodo destructor cierra la conexion. */
@@ -65,7 +66,7 @@ class Producto extends BasicModel
     /**
      * @param int $Codigo
      */
-    public function setCodigo(?int $Codigo): void
+    public function setCodigo($Codigo): void
     {
         $this->Codigo = $Codigo;
     }
@@ -169,7 +170,7 @@ class Producto extends BasicModel
 
     public function create() : bool
     {
-        $result = $this->insertRow("INSERT INTO merempresac.producto VALUES (NULL, ?, ?, ?, ?, ?, ?)", array(
+        $result = $this->insertRow("INSERT INTO merempresac.Producto VALUES (NULL, ?, ?, ?, ?, ?, ?)", array(
                 $this->Nombre,
                 $this->Importado,
                 $this->Descripcion,
@@ -179,13 +180,14 @@ class Producto extends BasicModel
 
             )
         );
+
         $this->setCodigo(($result) ? $this->getLastId() : null);
         $this->Disconnect();
         return $result;
     }
     public function update() : bool
     {
-        $result = $this->updateRow("UPDATE merempresac.Producto SET Nombre = ?,Importado = ?, Descripcion = ?,Marca = ?, Subcategoria = ? Estado = ? WHERE Codigo = ?", array(
+        $result = $this->updateRow("UPDATE merempresac.Producto SET Nombre = ?,Importado = ?, Descripcion = ?,Marca = ?, Subcategoria = ?, Estado = ? WHERE Codigo = ?", array(
 
                 $this->Nombre,
                 $this->Importado,
@@ -193,7 +195,7 @@ class Producto extends BasicModel
                 $this->Marca->getCodigo(),
                 $this->Subcategoria->getCodigo(),
                 $this->Estado,
-                $this->Codigo,
+                $this->Codigo
 
             )
         );
@@ -254,9 +256,9 @@ class Producto extends BasicModel
         return Producto::search("SELECT * FROM merempresac.Producto ");
     }
 
-    public static function ProductoRegistrado ($Nombre) : bool
+    public static function ProductoRegistrado($Nombre) : bool
     {
-        $result = Producto::search("SELECT * FROM merempresac.Producto where Nombre = '".$Nombre . "'");
+        $result = Producto::search("SELECT Codigo FROM merempresac.Producto where Nombre = '".$Nombre. "'");
         if (count($result) > 0){
             return true;
         }else{

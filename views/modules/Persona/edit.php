@@ -1,19 +1,12 @@
 <?php
-require_once("../../../App/Controllers/SubcategoriaController.php");
-require_once("../../../App/Controllers/MarcaController.php");
-require_once("../../../App/Controllers/ProductoController.php");
 require("../../partials/routes.php");
+require("../../../app/Controllers/UsuariosController.php");
 
-use App\Controllers\SubcategoriaController;
-use App\Controllers\MarcaController;
-use App\Controllers\ProductoController;
-
-
-?>
+use app\Controllers\UsuariosController; ?>
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-    <title><?= getenv('TITLE_SITE') ?> | Modificar Elemento</title>
+    <title><?= getenv('TITLE_SITE') ?> | Editar Usuario</title>
     <?php require("../../partials/head_imports.php"); ?>
 </head>
 <body class="hold-transition sidebar-mini">
@@ -31,11 +24,11 @@ use App\Controllers\ProductoController;
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Modificar Producto</h1>
+                        <h1>Editar Nuevo Usuario</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="<?= $baseURL; ?>/views/">Proyecto-ABC</a></li>
+                            <li class="breadcrumb-item"><a href="<?= $baseURL; ?>/views/">Proyectotiendaropa</a></li>
                             <li class="breadcrumb-item active">Inicio</li>
                         </ol>
                     </div>
@@ -51,120 +44,125 @@ use App\Controllers\ProductoController;
                     <div class="alert alert-danger alert-dismissible">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                         <h5><i class="icon fas fa-ban"></i> Error!</h5>
-                        Error al editar la Subcategoria: <?= ($_GET['mensaje']) ?? "" ?>
+                        Error al modificar el usuario: <?= ($_GET['mensaje']) ?? "" ?>
                     </div>
                 <?php } ?>
-            <?php } else if (empty($_GET['id'])) { ?>
+            <?php } else if (empty($_GET['documento'])) { ?>
                 <div class="alert alert-danger alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                     <h5><i class="icon fas fa-ban"></i> Error!</h5>
                     Faltan criterios de busqueda <?= ($_GET['mensaje']) ?? "" ?>
                 </div>
             <?php } ?>
-
             <!-- Horizontal Form -->
-            <div class="card card-warning">
-                <div class="card-header">
-                    <h3 class="card-title"><i class="fas fa-edit"></i> <strong> Elemento</strong></h3>
-                    <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="card-refresh"
-                                data-source="create.php" data-source-selector="#card-refresh-content"
-                                data-load-on-init="false"><i class="fas fa-sync-alt"></i></button>
-                        <button type="button" class="btn btn-tool" data-card-widget="maximize"><i
-                                    class="fas fa-expand"></i></button>
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i
-                                    class="fas fa-minus"></i></button>
-                    </div>
-                </div>
-                <!-- /.card-header -->
-                <?php if(!empty($_GET["id"]) && isset($_GET["id"])){ ?>
-                    <p>
-                    <?php
-                    $DataProducto = ProductoController::searchForID($_GET["id"]);
-                    if(!empty($DataProducto)){
-                        ?>
-                        <!-- form start -->
-                        <form class="form-horizontal" method="post" id="frmModificarSubcatego" name="frmModificarSubcategoria" action="../../../App/Controllers/ProductoController.php?action=edit">
-                            <input id="Codigo" name="Codigo" value="<?php echo $DataProducto->getCodigo(); ?>" hidden required="required" type="text">
-
-                            <div class="card-body">
-                                <div class="form-group row">
-                                    <label for="Nombre" class="col-sm-2 col-form-label">Nombre</label>
-                                    <div class="col-sm-10">
-                                        <input required type="text" class="form-control" id="Nombre" name="Nombre" value="<?= $DataProducto->getNombre(); ?>" placeholder="Ingrese nombre de la Categoria">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="Importado" class="col-sm-2 col-form-label">Importado</label>
-                                    <div class="col-sm-10">
-                                        <input required type="text" class="form-control" id="Importado" name="Importado" value="<?= $DataProducto->getImportado(); ?>" placeholder="Ingrese nombre de la Categoria">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="Descripcion" class="col-sm-2 col-form-label">Descripcion</label>
-                                    <div class="col-sm-10">
-                                        <input required type="text" class="form-control" id="Descripcion" name="Descripcion" value="<?= $DataProducto->getDescripcion(); ?>" placeholder="Ingrese nombre de la Categoria">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="Marca" class="col-sm-2 col-form-label">Marca</label>
-                                    <div class="col-sm-10">
-                                        <?= MarcaController::selectMarca(false,
-                                            true,
-                                            'Marca',
-                                            'Marca',
-                                            (!empty($DataProducto)) ? $DataProducto->getMarca()->getCodigo() : '',
-                                            'form-control select2bs4 select2-info',
-                                            "")
-                                        ?>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="Subcategoria" class="col-sm-2 col-form-label">Subcategoria</label>
-                                    <div class="col-sm-10">
-                                        <?= SubcategoriaController::selectSubcategoria(false,
-                                            true,
-                                            'Subcategoria',
-                                            'Subcategoria',
-                                            (!empty($DataProducto)) ? $DataProducto->getSubcategoria()->getCodigo() : '',
-                                            'form-control select2bs4 select2-info',
-                                            "")
-                                        ?>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="Estado" class="col-sm-2 col-form-label">Estado</label>
-                                    <div class="col-sm-10">
-                                        <select id="Estado" name="Estado" class="custom-select">
-                                            <option <?= ($DataProducto->getEstado() == "activo") ? "selected":""; ?> value="activo">Activo</option>
-                                            <option <?= ($DataProducto->getEstado() == "inactivo") ? "selected":""; ?> value="inactivo">Inactivo</option>>
-                                        </select>
-                                    </div>
-                                </div>
-                                <!-- /.card-body -->
-                                <div class="card-footer">
-                                    <button type="submit" class="btn btn-warning">Enviar</button>
-                                    <a href="show.php" role="button" class="btn btn-dark float-right">Cancelar</a>
-                                </div>
-                                <!-- /.card-footer -->
-                        </form>
-                    <?php }else{ ?>
-                        <div class="alert alert-danger alert-dismissible">
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                            <h5><i class="icon fas fa-ban"></i> Error!</h5>
-                            No se encontro ningun registro con estos parametros de busqueda <?= ($_GET['mensaje']) ?? "" ?>
-                        </div>
-                    <?php } ?>
-                    </p>
-                <?php } ?>
+            <p class="card card-info"></p>
+            <div class="card-header">
+                <h3 class="card-title">Horizontal Form</h3>
             </div>
-            <!-- /.card -->
-        </section>
-        <!-- /.content -->
-    </div>
-    <!-- /.content-wrapper -->
+            <!-- /.card-header -->
+            <?php if(!empty($_GET["documento"]) && isset($_GET["documento"])){ ?>
 
-    <?php require ('../../partials/footer.php');?>
+
+                <?php
+                $Persona = UsuariosController::searchForDocumento($_GET["documento"]);
+                if(!empty($Persona)){
+                    ?>
+                    <!-- form start -->
+                    <form class="form-horizontal" method="post" id="frmEditUsuario" name="frmEditUsuario" action="../../../app/Controllers/UsuariosController.php?action=edit">
+                        <div class="card-body">
+                            <input id="Documento" name="Documento" value="<?php echo $Persona->getDocumento(); ?>" hidden
+                                   required="required" type="text">
+                            <div class="form-group row">
+                                <label for="Nombre" class="col-sm-2 col-form-label">Nombre</label>
+                                <div class="col-sm-10">
+                                    <input required type="text" class="form-control" id="Nombre" name="Nombre" value="<?= $Persona->getNombre(); ?>" placeholder="Ingrese sus nombres">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="Apellido" class="col-sm-2 col-form-label">Apellidos</label>
+                                <div class="col-sm-10">
+                                    <input required type="text" class="form-control" id="Apellido" name="Apellido" value="<?= $Persona->getApellido(); ?>" placeholder="Ingrese sus apellidos">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="Genero" class="col-sm-2 col-form-label">Genero</label>
+                                <div class="col-sm-10">
+                                    <select id="Genero" name="Genero" class="custom-select">
+                                        <option <?= ($Persona->getGenero() == "masculino") ? "selected":""; ?> value="masculino">masculino</option>
+                                        <option <?= ($Persona->getGenero() == "femenino") ? "selected":""; ?> value="femenino">femenino</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="Correo" class="col-sm-2 col-form-label">Correo</label>
+                                <div class="col-sm-10">
+                                    <input required type="email" class="form-control" id="Correo" name="Correo" value="<?= $Persona->getCorreo(); ?>" placeholder="Ingrese sus Correo">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="Telefono" class="col-sm-2 col-form-label">Telefono</label>
+                                <div class="col-sm-10">
+                                    <input required type="number" minlength="6" class="form-control" id="Telefono" name="Telefono" value="<?= $Persona->getTelefono(); ?>" placeholder="Ingrese su telefono">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="Direccion" class="col-sm-2 col-form-label">Direccion</label>
+                                <div class="col-sm-10">
+                                    <input required type="text" class="form-control" id="Direccion" name="Direccion" value="<?= $Persona->getDireccion(); ?>" placeholder="Ingrese su direccion">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="Rol" class="col-sm-2 col-form-label">Rol</label>
+                                <div class="col-sm-10">
+                                    <select id="Rol" name="Rol" class="custom-select">
+                                        <option <?= ($Persona->getRol() == "Proveedor") ? "selected":""; ?> value="proveedor">proveedor</option>
+                                        <option <?= ($Persona->getRol() == "Vendedor") ? "selected":""; ?> value="vendedor">vendedor</option>
+                                        <option <?= ($Persona->getRol() == "Cliente") ? "selected":""; ?> value="cliente">cliente</option>
+                                        <option <?= ($Persona->getRol() == "administrador") ? "selected":""; ?> value="administrador">administrador</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="Contrasena" class="col-sm-2 col-form-label">Contrasena</label>
+                                <div class="col-sm-10">
+                                    <input required type="text" class="form-control" id="Contrasena" name="Contrasena" value="<?= $Persona->getContrasena(); ?>" placeholder="Ingrese su Contrasena">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="Estado" class="col-sm-2 col-form-label">Estado</label>
+                                <div class="col-sm-10">
+                                    <select id="Estado" name="Estado" class="custom-select">
+                                        <option <?= ($Persona->getEstado() == "activo") ? "selected":""; ?> value="activo">Activo</option>
+                                        <option <?= ($Persona->getEstado() == "inactivo") ? "selected":""; ?> value="inactivo">Inactivo</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-info">Enviar</button>
+                            <a href="index.php" role="button" class="btn btn-default float-right">Cancelar</a>
+                        </div>
+                        <!-- /.card-footer -->
+                    </form>
+                <?php }else{ ?>
+                    <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                        No se encontro ningun registro con estos parametros de busqueda <?= ($_GET['mensaje']) ?? "" ?>
+                    </div>
+                <?php } ?>
+
+            <?php } ?>
+    </div>
+    <!-- /.card -->
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+
+<?php require ('../../partials/footer.php');?>
 </div>
 <!-- ./wrapper -->
 <?php require ('../../partials/scripts.php');?>

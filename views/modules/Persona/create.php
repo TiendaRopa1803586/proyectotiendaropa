@@ -1,23 +1,9 @@
-<?php
-
-require_once("../../../App/Controllers/SubcategoriaController.php");
-require_once("../../../App/Controllers/MarcaController.php");
-require("../../partials/routes.php");
-
-use App\Controllers\SubcategoriaController;
-use App\Controllers\MarcaController;
-
-use App\Controllers\ProductoController;
-
-
-
- ?>
+<?php require("../../partials/routes.php"); ?>
 <!DOCTYPE html>
-<html lang="es">
-<head>
-    <title><?= getenv('TITLE_SITE') ?> | Crear Producto</title>
-    <?php require("../../partials/head_imports.php"); ?>
 
+<head>
+    <title><?= getenv('TITLE_SITE') ?> | Crear Usuario</title>
+    <?php require("../../partials/head_imports.php"); ?>
 </head>
 <body class="hold-transition sidebar-mini">
 
@@ -34,7 +20,7 @@ use App\Controllers\ProductoController;
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Crear Producto</h1>
+                        <h1>Crear un Nuevo Usuario</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -54,7 +40,7 @@ use App\Controllers\ProductoController;
                     <div class="alert alert-danger alert-dismissible">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                         <h5><i class="icon fas fa-ban"></i> Error!</h5>
-                        Error al crear Producto: <?= $_GET['mensaje'] ?>
+                        Error al crear el usuario: <?= $_GET['mensaje'] ?>
                     </div>
                 <?php } ?>
             <?php } ?>
@@ -62,71 +48,87 @@ use App\Controllers\ProductoController;
             <!-- Horizontal Form -->
             <div class="card card-info">
                 <div class="card-header">
-                    <h3 class="card-title"> Formulario producto</h3>
+                    <h3 class="card-title">Formulario</h3>
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form class="form-horizontal" method="post" id="frmCreateProducto" name="frmCreateProducto" action="../../../App/Controllers/ProductoController.php?action=create">
+                <form class="form-horizontal" method="post" id="frmCreateUsuario" name="frmCreateUsuario" action="../../../app/Controllers/UsuariosController.php?action=create">
                     <div class="card-body">
                         <div class="form-group row">
-                            <label for="Nombre" class="col-sm-2 col-form-label">Nombre</label>
+                            <label for="Documento" class="col-sm-2 col-form-label">Documento</label>
                             <div class="col-sm-10">
-
-                                <input required type="text" class="form-control" id="Nombre" name="Nombre" placeholder="Ingrese nombre del producto">
+                                <input required type="number" minlength="6" class="form-control" id="Documento" name="Documento" placeholder="Ingrese su documento">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="Importado" class="col-sm-2 col-form-label">Importado</label>
+                            <label for="Nombre" class="col-sm-2 col-form-label">Nombres</label>
                             <div class="col-sm-10">
-                                <input required type="text" class="form-control" id="Importado" name="Importado" placeholder="Ingrese Importado">
+                                <input required type="text" class="form-control" id="Nombre" name="Nombre" placeholder="Ingrese sus nombres">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="Descripcion" class="col-sm-2 col-form-label">Descripcion</label>
+                            <label for="Apellido" class="col-sm-2 col-form-label">Apellidos</label>
                             <div class="col-sm-10">
-                                <input required type="text" class="form-control" id="Descripcion" name="Descripcion" placeholder="Ingrese descripción">
+                                <input required type="text" class="form-control" id="Apellido" name="Apellido" placeholder="Ingrese sus apellidos">
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label for="Genero" class="col-sm-2 col-form-label">Genero</label>
+                            <div class="col-sm-10">
+                                <select id="Genero" name="Genero" class="custom-select">
+                                    <option value="masculino">masculino</option>
+                                    <option value="femenino">femenino</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="Correo" class="col-sm-2 col-form-label">Correo</label>
+                            <div class="col-sm-10">
+                                <input required type="email" minlength="6" class="form-control" id="Correo" name="Correo" placeholder="Ingrese su correo">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="Telefono" class="col-sm-2 col-form-label">Telefono</label>
+                            <div class="col-sm-10">
+                                <input required type="number" minlength="6" class="form-control" id="Telefono" name="Telefono" placeholder="Ingrese su telefono">
+                            </div>
+                        </div>
+
 
                         <div class="form-group row">
-                            <label for="Marca" class="col-sm-2 col-form-label">Marca</label>
+                            <label for="Direccion" class="col-sm-2 col-form-label">Direccion</label>
                             <div class="col-sm-10">
-                                <?= MarcaController::selectMarca(false,
-                                    true,
-                                    'Marca',
-                                    'Marca',
-                                    (!empty($dataProducto)) ? $dataProducto->getMarca()->getCodigo() : '',
-                                    'form-control select2bs4 select2-info',
-                                    "Estado = 'Activo'")
-                                ?>
+                                <input required type="text" class="form-control" id="Direccion" name="Direccion" placeholder="Ingrese su direccion">
                             </div>
                         </div>
-                        <div class="form-group row">.
-                            <label for="Subcategoria" class="col-sm-2 col-form-label">Subcategoria</label>
-                            <div class="col-sm-8">
-                                <?= SubcategoriaController::selectSubcategoria(false,
-                                    true,
-                                    'Subcategoria',
-                                    'Subcategoria',
-                                    (!empty($dataProducto)) ? $dataProducto->getSubcategoria()->getCodigo() : '',
-                                    'form-control select2bs4 select2-info',
-                                    "Estado = 'Activo'")
-                                ?>
+                        <div class="form-group row">
+                            <label for="Rol" class="col-sm-2 col-form-label">Rol</label>
+                            <div class="col-sm-10">
+                                <select id="Rol" name="Rol" class="custom-select">
+                                    <option value="administrador">Administrador</option>
+                                    <option value="vendedor">Vendedor</option>
+                                    <option value="cliente">Cliente</option>
+                                    <option value="proveedor">proveedor</option>
+                                </select>
                             </div>
                         </div>
-
+                        <div class="form-group row">
+                            <label for="Contrasena" class="col-sm-2 col-form-label">Contrasena</label>
+                            <div class="col-sm-10">
+                                <input required type="text" minlength="6" class="form-control" id="Contrasena" name="Contrasena" placeholder="Ingrese contrasena">
+                            </div>
+                        </div>
                         <div class="form-group row">
                             <label for="Estado" class="col-sm-2 col-form-label">Estado</label>
                             <div class="col-sm-10">
                                 <select id="Estado" name="Estado" class="custom-select">
-                                    <option value="activo">Activo</option>
-                                    <option value="inactivo">Inactivo</option>
+                                    <option value="activo">activo</option>
+                                    <option value="inactivo">inactivo</option>
                                 </select>
                             </div>
                         </div>
 
                     </div>
-
                     <!-- /.card-body -->
                     <div class="card-footer">
                         <button type="submit" class="btn btn-info">Enviar</button>

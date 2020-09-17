@@ -40,24 +40,25 @@ class UsuariosController
     {
         try {
             $arrayUsuario = array();
-            $arrayUsuario['Codigo'] = $_POST['Codigo'];
-            $arrayUsuario['Producto'] = $_POST['Producto'];
-            $arrayUsuario['Compra'] = $_POST['Compra'];
-            $arrayUsuario['Cantidad'] = $_POST['Cantidad'];
-            $arrayUsuario['Precio'] = $_POST['Precio'];
-            $arrayUsuario['IVA'] = $_POST['IVA'];
-            $arrayUsuario['Talla'] = $_POST['Talla'];
-            $arrayUsuario['Color'] = $_POST['Color'];
-            if (!Inventario::usuarioregistrado($arrayUsuario['Codigo'])) {
-                $Persona = new Inventario($arrayUsuario);
+            $arrayUsuario['Nombre'] = $_POST['Nombre'];
+            $arrayUsuario['Apellido'] = $_POST['Apellido'];
+            $arrayUsuario['Genero'] = $_POST['Genero'];
+            $arrayUsuario['Correo'] = $_POST['Correo'];
+            $arrayUsuario['Telefono'] = $_POST['Telefono'];
+            $arrayUsuario['Direccion'] = $_POST['Direccion'];
+            $arrayUsuario['Rol'] = $_POST['Rol'];
+            $arrayUsuario['Contrasena'] = $_POST['Contrasena'];
+            $arrayUsuario['Estado'] = $_POST['Estado'];
+            if (!Persona::usuarioregistrado($arrayUsuario['Nombre'])) {
+                $Persona = new Persona($arrayUsuario);
                 if ($Persona->create()) {
-                    header("Location: ../../views/modules/Inventario/index.php?respuesta=correcto");
+                    header("Location: ../../views/modules/Persona/index.php?respuesta=correcto");
                 }
             } else {
-                header("Location: ../../views/modules/Inventario/create.php?respuesta=error&mensaje=Usuario ya registrado");
+                header("Location: ../../views/modules/Persona/create.php?respuesta=error&mensaje=Usuario ya registrado");
             }
         } catch (Exception $e) {
-            header("Location: ../../views/modules/Inventario/create.php?respuesta=error&mensaje=" . $e->getMessage());
+            header("Location: ../../views/modules/Persona/create.php?respuesta=error&mensaje=" . $e->getMessage());
         }
     }
 

@@ -20,8 +20,8 @@ class UsuariosController
             UsuariosController::create();
         } else if ($action == "edit") {
             UsuariosController::edit();
-        } else if ($action == "searchForDocumento") {
-            UsuariosController::searchForDocumento($_REQUEST['Documento']);
+        } else if ($action == "searchForId") {
+            UsuariosController::searchForId($_REQUEST['Id']);
         } else if ($action == "searchAll") {
             UsuariosController::getAll();
         } else if ($action == "activate") {
@@ -91,7 +91,7 @@ class UsuariosController
     static public function activate()
     {
         try {
-            $ObjUsuario = Persona::searchForDocumento($_GET['Id']);
+            $ObjUsuario = Persona::searchForId($_GET['Id']);
             $ObjUsuario->setEstado("activo");
             if ($ObjUsuario->update()) {
                 header("Location: ../../views/modules/Persona/index.php");
@@ -108,7 +108,7 @@ class UsuariosController
     static public function inactivate()
     {
         try {
-            $ObjUsuario = Persona::searchForDocumento($_GET['Id']);
+            $ObjUsuario = Persona::searchForId($_GET['Id']);
             $ObjUsuario->setEstado("Inactivo");
             if ($ObjUsuario->update()) {
                 header("Location: ../../views/modules/Persona/index.php");
@@ -121,9 +121,9 @@ class UsuariosController
         }
     }
 
-    public static function searchForDocumento($Documento){
+    public static function searchForId($id){
         try {
-            return Persona::searchForDocumento($Documento);
+            return Persona::searchForId($id);
         } catch (\Exception $e) {
             var_dump($e);
             header("Location: ../../views/modules/Persona/manager.php?respuesta=error");

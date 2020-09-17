@@ -265,7 +265,7 @@ class Persona extends BasicModel
      * @return bool
      * @throws \Exception
      */
-    public function create(): bool
+   public function create(): bool
     {
         $result = $this->insertRow("INSERT INTO merempresac.persona VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", array(
                 $this->Documento,
@@ -288,9 +288,9 @@ class Persona extends BasicModel
      * @param $id
      * @return bool
      */
-    public function deleted($Documento): bool
+    public function deleted($id): bool
     {
-        $User = Persona::searchForDocumento($Documento); //Buscando un usuario por el ID
+        $User = Persona::searchForId($id); //Buscando un usuario por el ID
         $User->setEstado("Inactivo"); //Cambia el estado del Usuario
         return $User->update();                    //Guarda los cambios..
     }
@@ -300,12 +300,12 @@ class Persona extends BasicModel
      * @return Persona
      * @throws \Exception
      */
-    public static function searchForDocumento($Documento): Persona
+    public static function searchForId($id): Persona
     {
         $Persona = null;
-        if ($Documento > 0) {
+        if ($id > 0) {
             $Persona = new Persona();
-            $getrow = $Persona->getRow("SELECT * FROM merempresac.Persona WHERE Documento =?", array($Documento));
+            $getrow = $Persona->getRow("SELECT * FROM merempresac.Persona WHERE Documento =?", array($id));
             $Persona->Documento = $getrow['Documento'];
             $Persona->Nombre = $getrow['Nombre'];
             $Persona->Apellido = $getrow['Apellido'];

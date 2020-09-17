@@ -1,91 +1,255 @@
 <?php
 
 
-namespace App\Models;
+namespace app\Models;
 use http\QueryString;
 require_once('BasicModel.php');
-#Creacion de la clase con herencia de la clase Basic Model
 
-class Categoria extends BasicModel
+class Persona extends BasicModel
 {
-    private $Codigo;
+    private $Documento;
     private $Nombre;
-    private $Descripcion;
+    private $Apellido;
+    private $Genero;
+    private $Correo;
+    private $Telefono;
+    private $Direccion;
+    private $Rol;
+    private $Contrasena;
     private $Estado;
 
     /**
-     *Categoria constructor.
-     * @param $Codigo
+     * Persona constructor.
+     * @param $Documento
      * @param $Nombre
-     * @param $Descripcion
+     * @param $Apellido
+     * @param $Genero
+     * @param $Correo
+     * @param $Telefono
+     * @param $Direccion
+     * @param $Rol
+     * @param $Contrasena
      * @param $Estado
-
      */
-    public function __construct($Categoria = array())
+    public function __construct($Persona = array())
     {
         parent::__construct(); //Llama al contructor padre "la clase conexion" para conectarme a la BD
-        $this->Codigo = $Categoria['Codigo'] ?? null;
-        $this->Nombre = $Categoria['Nombre'] ?? null;
-        $this->Descripcion = $Categoria['Descripcion'] ?? null;
-        $this->Estado = $Categoria['Estado'] ?? null;
+        $this->Documento = $Persona['Documento'] ?? null;
+        $this->Nombre = $Persona['Nombre'] ?? null;
+        $this->Apellido = $Persona['Apellido'] ?? null;
+        $this->Genero = $Persona['Genero'] ?? null;
+        $this->Correo = $Persona['Correo'] ?? null;
+        $this->Telefono = $Persona['Telefono'] ?? null;
+        $this->Direccion = $Persona['Direccion'] ?? null;
+        $this->Rol = $Persona['Rol'] ?? null;
+        $this->Contrasena = $Persona['Contrasena'] ?? null;
+        $this->Estado = $Persona['Estado'] ?? null;
     }
-    /* Metodo destructor cierra la conexion. */
-    function __destruct() {
+    /**
+     * @return array
+     */
+    public static function getAll(): array
+    {
+        return Persona::search("SELECT * FROM merempresac.Persona");
+    }
+    /**
+     * @param $query
+     * @return Persona|array
+     * @throws \Exception
+     */
+    public static function search ($query)
+    {
+        $arrPersona = array();
+        $tmp = new Persona();
+        $getrows = $tmp->getRows($query);
+
+        foreach ($getrows as $valor) {
+            $Persona = new Persona();
+            $Persona->Documento = $valor['Documento'];
+            $Persona->Nombre = $valor['Nombre'];
+            $Persona->Apellido = $valor['Apellido'];
+            $Persona->Genero = $valor['Genero'];
+            $Persona->Correo = $valor['Correo'];
+            $Persona->Telefono = $valor['Telefono'];
+            $Persona->Direccion = $valor['Direccion'];
+            $Persona->Rol = $valor['Rol'];
+            $Persona->Contrasena = $valor['Contrasena'];
+            $Persona->Estado = $valor['Estado'];
+            $Persona->Disconnect();
+            array_push($arrPersona, $Persona);
+        }
+        $tmp->Disconnect();
+        return $arrPersona;
+    }
+    /**
+     * @param $documento
+     * @return bool
+     * @throws \Exception
+     */
+    public static function usuarioregistrado ($Documento): bool
+    {
+        $result = Persona::search("SELECT * FROM merempresac.Persona where Documento = ".$Documento );
+        if (count($result) > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    /**
+     *
+     */
+    function __destruct()
+    {
         $this->Disconnect();
     }
-
     /**
      * @return int
      */
-    public function getCodigo(): ?int
+    public function getDocumento(): int
     {
-        return $this->Codigo;
+        return $this->Documento;
     }
 
     /**
-     * @param int $Codigo
+     * @param int $Documento
      */
-    public function setCodigo(?int $Codigo): void
+    public function setDocumento(int $Documento): void
     {
-        $this->Codigo = $Codigo;
+        $this->Documento = $Documento;
     }
 
     /**
      * @return string
      */
-    public function getNombre(): ?string
+    public function getNombre(): string
     {
         return $this->Nombre;
     }
-
     /**
      * @param string $Nombre
      */
-    public function setNombre(?string $Nombre): void
+    public function setNombre(string $Nombre): void
     {
         $this->Nombre = $Nombre;
     }
 
     /**
      * @return string
+     *
      */
-    public function getDescripcion(): ?string
+    public function getApellido(): string
     {
-        return $this->Descripcion;
+        return $this->Apellido;
     }
 
     /**
-     * @param string $Descripcion
+     * @param string $Apellido
      */
-    public function setDescripcion(?string $Descripcion): void
+    public function setApellido(string $Apellido): void
     {
-        $this->Descripcion = $Descripcion;
+        $this->Apellido = $Apellido;
     }
 
     /**
      * @return string
      */
-    public function getEstado(): ?string
+    public function getGenero(): string
+    {
+        return $this->Genero;
+    }
+
+    /**
+     * @param string $Genero
+     */
+    public function setGenero(string $Genero): void
+    {
+        $this->Genero = $Genero;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCorreo(): string
+    {
+        return $this->Correo;
+    }
+
+    /**
+     * @param string $Correo
+     */
+    public function setCorreo(string $Correo): void
+    {
+        $this->Correo = $Correo;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTelefono(): int
+    {
+        return $this->Telefono;
+    }
+
+    /**
+     * @param int $Telefono
+     */
+    public function setTelefono(int $Telefono): void
+    {
+        $this->Telefono = $Telefono;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDireccion(): string
+    {
+        return $this->Direccion;
+    }
+
+    /**
+     * @param string $Direccion
+     */
+    public function setDireccion(string $Direccion): void
+    {
+        $this->Direccion = $Direccion;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRol(): string
+    {
+        return $this->Rol;
+    }
+
+    /**
+     * @param string $Rol
+     */
+    public function setRol(string $Rol): void
+    {
+        $this->Rol = $Rol;
+    }
+
+    /**
+     * @return string
+     */
+    public function getContrasena(): string
+    {
+        return $this->Contrasena;
+    }
+
+    /**
+     * @param string $Contrasena
+     */
+    public function setContrasena(string $Contrasena): void
+    {
+        $this->Contrasena = $Contrasena;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEstado(): string
     {
         return $this->Estado;
     }
@@ -93,91 +257,119 @@ class Categoria extends BasicModel
     /**
      * @param string $Estado
      */
-    public function setEstado(?string $Estado): void
+    public function setEstado(string $Estado): void
     {
         $this->Estado = $Estado;
     }
-    //creacion del metodo create
-    public function create() : bool
+    /**
+     * @return bool
+     * @throws \Exception
+     */
+    public function create(): bool
     {
-        $result = $this->insertRow("INSERT INTO merempresac.Categoria VALUES (NULL, ?, ?, ?)", array(
+        $result = $this->insertRow("INSERT INTO merempresac.persona VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", array(
+                $this->Documento,
                 $this->Nombre,
-                $this->Descripcion,
-                $this->Estado,
+                $this->Apellido,
+                $this->Genero,
+                $this->Correo,
+                $this->Telefono,
+                $this->Direccion,
+                $this->Rol,
+                $this->Contrasena,
+                $this->Estado
+            )
 
+        );
+        $this->Disconnect();
+        return $result;
+    }
+    /**
+     * @param $id
+     * @return bool
+     */
+    public function deleted($Documento): bool
+    {
+        $User = Persona::searchForDocumento($Documento); //Buscando un usuario por el ID
+        $User->setEstado("Inactivo"); //Cambia el estado del Usuario
+        return $User->update();                    //Guarda los cambios..
+    }
+
+    /**
+     * @param $Documento
+     * @return Persona
+     * @throws \Exception
+     */
+    public static function searchForDocumento($Documento): Persona
+    {
+        $Persona = null;
+        if ($Documento > 0) {
+            $Persona = new Persona();
+            $getrow = $Persona->getRow("SELECT * FROM merempresac.Persona WHERE Documento =?", array($Documento));
+            $Persona->Documento = $getrow['Documento'];
+            $Persona->Nombre = $getrow['Nombre'];
+            $Persona->Apellido = $getrow['Apellido'];
+            $Persona->Genero = $getrow['Genero'];
+            $Persona->Correo = $getrow['Correo'];
+            $Persona->Telefono = $getrow['Telefono'];
+            $Persona->Direccion = $getrow['Direccion'];
+            $Persona->Rol = $getrow['Rol'];
+            $Persona->Contrasena = $getrow['Contrasena'];
+            $Persona->Estado = $getrow['Estado'];
+        }
+        $Persona->Disconnect();
+        return $Persona;
+    }
+
+    /**
+     * @return bool
+     */
+    public function update(): bool
+    {
+        $result = $this->updateRow("UPDATE merempresac.Persona SET  Nombre = ?, Apellido = ?, Genero = ?, Correo = ?, Telefono=?, Direccion=?, Rol=?, Contrasena=?, Estado=?  WHERE Documento = ?", array(
+
+                $this->Nombre,
+                $this->Apellido,
+                $this->Genero,
+                $this->Correo,
+                $this->Telefono,
+                $this->Direccion,
+                $this->Rol,
+                $this->Contrasena,
+                $this->Estado,
+                $this->Documento
             )
         );
         $this->Disconnect();
         return $result;
     }
-    public function update() : bool
-    {
-        $result = $this->updateRow("UPDATE merempresac.Categoria SET Nombre = ?, Descripcion = ?, Estado = ? WHERE Codigo = ?", array(
-                $this->Nombre,
-                $this->Descripcion,
-                $this->Estado,
-                $this->Codigo,
-            )
-        );
-        $this->Disconnect();
-        return $result;
-    }
-    //Creacion del la funcion eliminar o cambiar estado de una persona segun el Id
-    public function deleted($Codigo) : void
-    {
-        // TODO: Implement deleted() method.
-    }
-    //buscar por query
-    public static function search($query) : array
-    {
-        $arrCategoria = array();
-        $tmp = new Categoria();
-        $getrows = $tmp->getRows($query);
 
-        foreach ($getrows as $valor) {
-            $Categoria = new Categoria();
-            $Categoria->Codigo = $valor['Codigo'];
-            $Categoria->Nombre = $valor['Nombre'];
-            $Categoria->Descripcion = $valor['Descripcion'];
-            $Categoria->Estado = $valor['Estado'];
-            $Categoria->Disconnect();
-            array_push($arrCategoria, $Categoria);
-        }
-        $tmp->Disconnect();
-        return $arrCategoria;
-    }
-    public static function searchForId($Codigo) : Categoria
+    /**
+     * @return string
+     */
+    public function nombresCompletos()
     {
-        $Categoria= null;
-        if ($Codigo > 0){
-            $Categoria= new Categoria();
-            $getrow = $Categoria->getRow("SELECT * FROM merempresac.Categoria WHERE Codigo =?", array($Codigo));
-            $Categoria->Codigo = $getrow['Codigo'];
-            $Categoria->Nombre = $getrow['Nombre'];
-            $Categoria->Descripcion = $getrow['Descripcion'];
-            $Categoria->Estado = $getrow['Estado'];
+        return $this->Nombre . " " . $this->Apellido;
+    }
 
-        }
-        $Categoria->Disconnect();
-        return $Categoria;
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return "Documento: $this->Documento, Nombre: $this->Nombre, Apellido: $this->Apellido, Genero: $this->Genero, Correo: $this->Correo, Telefono: $this->Telefono,Direccion: $this->Direccion,Rol: $this->Rol,Contrasena: $this->Contrasena,Contrasena: $this->Estado";
     }
 
 
-    public static function getAll() : array
+    /*
+    public function __toString()
     {
-        return Categoria::search("SELECT * FROM merempresac.Categoria");
-    }
+        return $this->documentPerson." ".$this->namePerson." ".$this->dateBornPerson." ".$this->rhperson
+            ." ".$this->emailPerson ." ".$this->phonePerson." ".$this->adressPerson." ".$this->genereperson." ".$this->userperson
+            ." ".$this->passwordPerson." ".$this->typePerson." ".$this->statePerson." ".$this->photoperson;
 
-    public static function CategoriaRegistrado ($Nombre) : bool
-    {
-        $result = Categoria::search("SELECT * FROM merempresac.categoria where Nombre = '".$Nombre . "'");
-        if (count($result) > 0){
-            return true;
-        }else{
-            return false;
-        }
-    }
 
+    }
 
 
     public function delete($idCategoria): bool
@@ -186,4 +378,13 @@ class Categoria extends BasicModel
         $CategoriaDelet->setestado("Inactivo");
         return $CategoriaDelet->update();
     }
+
+*/
+
+
+
+
+
+
 }
+

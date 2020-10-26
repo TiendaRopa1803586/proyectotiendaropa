@@ -37,7 +37,7 @@ require("../../partials/routes.php");
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="<?= $baseURL; ?>/Views/">proyectotiendaropa</a></li>
+                            <li class="breadcrumb-item"><a href="<?= $baseURL; ?>/views/">proyectotiendaropa</a></li>
                             <li class="breadcrumb-item active">Inicio</li>
                         </ol>
                     </div>
@@ -92,6 +92,8 @@ require("../../partials/routes.php");
                                     <th>Porcentaje</th>
                                     <th>Fecha_inicio</th>
                                     <th>Fecha_fin</th>
+                                    <th>Producto</th>
+                                    <th>Estado</th>
                                     <th>Acciones</th>
                                 </tr>
 
@@ -105,16 +107,18 @@ require("../../partials/routes.php");
                                     <tr>
                                         <td><?php echo $Descuento->getCodigo(); ?></td>
                                         <td><?php echo $Descuento->getNombre(); ?></td>
-                                        <td><?php echo $Descuento->getPorcetaje(); ?></td>
+                                        <td><?php echo $Descuento->getPorcentaje(); ?></td>
                                         <td><?php echo $Descuento->getFecha_inicio(); ?></td>
                                         <td><?php echo $Descuento->getFecha_fin(); ?></td>
+                                        <td><?php echo $Descuento->getProducto()->getNombre(); ?></td>
+                                        <td><?php echo $Descuento->getEstado(); ?></td>
                                         <td>
                                             <a href="edit.php?id=<?php echo $Descuento->getCodigo(); ?>" type="button" data-toggle="tooltip" title="Actualizar" class="btn docs-tooltip btn-primary btn-xs"><i class="fa fa-edit"></i></a>
                                             <a href="show.php?id=<?php echo $Descuento->getCodigo(); ?>" type="button" data-toggle="tooltip" title="Ver" class="btn docs-tooltip btn-warning btn-xs"><i class="fa fa-eye"></i></a>
                                             <?php if ($Descuento->getEstado() != "activo"){ ?>
-                                                <a href="../../../app/Controllers/DescuentoController.php?action=activate&Id=<?php echo $Descuento->getCodigo(); ?>" type="button" data-toggle="tooltip" title="Activar" class="btn docs-tooltip btn-success btn-xs"><i class="fa fa-check-square"></i></a>
+                                                <a href="../../../App/Controllers/DescuentoController.php?action=activate&Id=<?php echo $Descuento->getCodigo(); ?>" type="button" data-toggle="tooltip" title="Activar" class="btn docs-tooltip btn-success btn-xs"><i class="fa fa-check-square"></i></a>
                                             <?php }else{ ?>
-                                                <a type="button" href="../../../app/Controllers/DescuentoController.php?action=inactivate&Id=<?php echo $Descuento->getCodigo(); ?>" data-toggle="tooltip" title="Inactivar" class="btn docs-tooltip btn-danger btn-xs"><i class="fa fa-times-circle"></i></a>
+                                                <a type="button" href="../../../App/Controllers/DescuentoController.php?action=inactivate&Id=<?php echo $Descuento->getCodigo(); ?>" data-toggle="tooltip" title="Inactivar" class="btn docs-tooltip btn-danger btn-xs"><i class="fa fa-times-circle"></i></a>
                                             <?php } ?>
                                         </td>
                                     </tr>
@@ -127,6 +131,8 @@ require("../../partials/routes.php");
                                     <th>Porcentaje</th>
                                     <th>Fecha_inicio</th>
                                     <th>Fecha_fin</th>
+                                    <th>Producto</th>
+                                    <th>Estado</th>
                                     <th>Acciones</th>
                                 </tr>
                                 </tfoot>

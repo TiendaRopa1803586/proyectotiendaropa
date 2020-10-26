@@ -171,6 +171,7 @@ class Producto extends BasicModel
     public function create() : bool
     {
         $result = $this->insertRow("INSERT INTO merempresac.Producto VALUES (NULL, ?, ?, ?, ?, ?, ?)", array(
+
                 $this->Nombre,
                 $this->Importado,
                 $this->Descripcion,

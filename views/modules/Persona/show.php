@@ -58,7 +58,7 @@ use App\Controllers\UsuariosController; ?>
             <!-- Horizontal Form -->
             <div class="card card-info">
                 <?php if(!empty($_GET["documento"]) && isset($_GET["documento"])){
-                    $DataUsuario = UsuariosController::searchForDocumento($_GET["documento"]);
+                    $DataUsuario = UsuariosController::searchForId($_GET["documento"]);
                     if(!empty($DataUsuario)){
                         ?>
                         <div class="card-header">

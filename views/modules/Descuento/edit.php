@@ -1,7 +1,9 @@
 <?php
-require("../../partials/routes.php");
+require("../../../app/Controllers/ProductoController.php");
 require("../../../app/Controllers/DescuentoController.php");
+require("../../partials/routes.php");
 
+use App\Controllers\ProductoController;
 use App\Controllers\DescuentoController; ?>
 <!DOCTYPE html>
 <html>
@@ -28,7 +30,7 @@ use App\Controllers\DescuentoController; ?>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="<?= $baseURL; ?>/Views/">proyectotiendaropa</a></li>
+                            <li class="breadcrumb-item"><a href="<?= $baseURL; ?>/views/">proyectotiendaropa</a></li>
                             <li class="breadcrumb-item active">Inicio</li>
                         </ol>
                     </div>
@@ -68,31 +70,54 @@ use App\Controllers\DescuentoController; ?>
                         if(!empty($DataDescuento)){
                     ?>
                             <!-- form start -->
-                            <form class="form-horizontal" method="post" id="frmModificardescuento" name="frmModificardescuento" action="../../../app/Controllers/DescuentoController.php?action=edit">
+                            <form class="form-horizontal" method="post" id="frmModificardescuento" name="frmModificardescuento" action="../../../App/Controllers/DescuentoController.php?action=edit">
                                 <input id="Codigo" name="Codigo" value="<?php echo $DataDescuento->getCodigo(); ?>" hidden required="required" type="text">
                                 <div class="card-body">
                                     <div class="form-group row">
-                                        <label for="nombre" class="col-sm-2 col-form-label">Nombre</label>
+                                        <label for="Nombre" class="col-sm-2 col-form-label">Nombre</label>
                                         <div class="col-sm-10">
                                             <input required type="text" class="form-control" id="Nombre" name="Nombre" value="<?= $DataDescuento->getNombre(); ?>" placeholder="Ingrese nombre del descuento">
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="porcentaje" class="col-sm-2 col-form-label">Porcentaje</label>
+                                        <label for="Porcentaje" class="col-sm-2 col-form-label">Porcentaje</label>
                                         <div class="col-sm-10">
                                             <input required type="text" class="form-control" id="Porcentaje" name="Porcentaje" value="<?= $DataDescuento->getporcentaje(); ?>" placeholder="Ingrese el porcentaje">
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="fecha_inicio" class="col-sm-2 col-form-label">Fecha_inicio</label>
+                                        <label for="Fecha_inicio" class="col-sm-2 col-form-label">FechaInicio</label>
                                         <div class="col-sm-10">
-                                            <input required type="text" class="form-control" id="Fecha_inicio" name="Fecha_inicio" value="<?= $DataDescuento->getFecha_Inicio(); ?>" placeholder="Ingrese la fecha inicio">
+                                            <input required type="date" class="form-control" id="Fecha_inicio" name="Fecha_inicio" value="<?= $DataDescuento->getFecha_inicio(); ?>" placeholder="Ingrese la fecha inicio">
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="fecha_fin" class="col-sm-2 col-form-label">Fecha_fin</label>
+                                        <label for="Fecha_fin" class="col-sm-2 col-form-label">FechaFin</label>
                                         <div class="col-sm-10">
-                                            <input required type="text" class="form-control" id="Fecha_fin" name="Fecha_fin" value="<?= $DataDescuento->getFecha_Fin(); ?>" placeholder="Ingrese la fecha fin">
+                                            <input required type="date" class="form-control" id="Fecha_fin" name="Fecha_fin" value="<?= $DataDescuento->getFecha_fin(); ?>" placeholder="Ingrese la fecha fin">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="Producto" class="col-sm-2 col-form-label">Producto</label>
+                                        <div class="col-sm-10">
+                                            <?= ProductoController::selectProducto(false,
+                                                true,
+                                                'Producto',
+                                                'Producto',
+                                                (!empty($DataDescuento)) ? $DataDescuento->getProducto()->getCodigo() : '',
+                                                'form-control select2bs4 select2-info',
+                                                "")
+                                            ?>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="Estado" class="col-sm-2 col-form-label">Estado</label>
+                                        <div class="col-sm-10">
+                                            <select id="Estado" name="Estado" class="custom-select">
+                                                <option <?= ($DataDescuento->getEstado() == "activo") ? "selected":""; ?> value="activo">Activo</option>
+                                                <option <?= ($DataDescuento->getEstado() == "inactivo") ? "selected":""; ?> value="inactivo">Inactivo</option>>
+                                            </select>
                                         </div>
                                     </div>
                                 <!-- /.card-body -->

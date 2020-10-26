@@ -3,7 +3,10 @@
 
 namespace App\Controllers;
 
-require(__DIR__.'/../Models/Descuento.php');
+require(__DIR__ . '/../Models/Descuento.php');
+
+use App\Models\GeneralFunctions;
+use App\Models\Producto;
 use App\Models\Descuento;
 
 if(!empty($_GET['action'])){
@@ -42,8 +45,9 @@ class DescuentoController
             $arrayDescuento['Porcentaje'] = $_POST['Porcentaje'];
             $arrayDescuento['Fecha_inicio'] = $_POST['Fecha_inicio'];
             $arrayDescuento['Fecha_fin'] = $_POST['Fecha_fin'];
+            $arrayDescuento['Producto'] = Producto::searchForId($_POST['Producto']);
             $arrayDescuento['Estado'] = 'Activo';
-            if(!Descuento::DescuentoRegistrado($arrayDescuento['Nombre'])){
+            if(!Descuento::DescuentoRegistrado($arrayDescuento['Porcentaje'])){
                 $Descuento = new Descuento ($arrayDescuento);
                 if($Descuento->create()){
                     header("Location: ../../views/modules/Descuento/index.php?respuesta=correcto");
@@ -52,6 +56,7 @@ class DescuentoController
                 header("Location: ../../views/modules/Descuento/create.php?respuesta=error&mensaje=Descuento ya registrado");
             }
         } catch (Exception $e) {
+            GeneralFunctions::console( $e, 'error', 'errorStack');
             header("Location: ../../views/modules/Descuento/create.php?respuesta=error&mensaje=" . $e->getMessage());
         }
     }
@@ -63,6 +68,8 @@ class DescuentoController
             $arrayDescuento['Porcentaje'] = $_POST['Porcentaje'];
             $arrayDescuento['Fecha_inicio'] = $_POST['Fecha_inicio'];
             $arrayDescuento['Fecha_fin'] = $_POST['Fecha_fin'];
+            $arrayDescuento['Producto'] = Producto::searchForId($_POST['Producto']);
+            $arrayDescuento['Estado'] = $_POST['Estado'];
             $arrayDescuento['Codigo'] = $_POST['Codigo'];
 
             $Descuento = new Descuento($arrayDescuento);
@@ -77,9 +84,9 @@ class DescuentoController
     //funcion activa del descuento
     static public function activate (){
         try {
-            $ObjDescuento = Descuento::searchForId($_GET['Id']);
-            $ObjDescuento>setEstado("activo");
-            if($ObjDescuento->update()){
+            $ObjProducto = Descuento::searchForId($_GET['Id']);
+            $ObjProducto->setEstado("activo");
+            if($ObjProducto->update()){
                 header("Location: ../../views/modules/Descuento/index.php?respuesta=correcto");
             }else{
                 header("Location: ../../views/modules/Descuento/index.php?respuesta=error&mensaje=Error al guardar");

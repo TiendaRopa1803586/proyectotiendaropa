@@ -40,6 +40,7 @@ class UsuariosController
     {
         try {
             $arrayUsuario = array();
+            $arrayUsuario['Documento'] = $_POST['Documento'];
             $arrayUsuario['Nombre'] = $_POST['Nombre'];
             $arrayUsuario['Apellido'] = $_POST['Apellido'];
             $arrayUsuario['Genero'] = $_POST['Genero'];
@@ -49,7 +50,7 @@ class UsuariosController
             $arrayUsuario['Rol'] = $_POST['Rol'];
             $arrayUsuario['Contrasena'] = $_POST['Contrasena'];
             $arrayUsuario['Estado'] = $_POST['Estado'];
-            if (!Persona::usuarioregistrado($arrayUsuario['Nombre'])) {
+            if (!Persona::usuarioregistrado($arrayUsuario['Documento'])) {
                 $Persona = new Persona($arrayUsuario);
                 if ($Persona->create()) {
                     header("Location: ../../views/modules/Persona/index.php?respuesta=correcto");
@@ -81,11 +82,11 @@ class UsuariosController
             $Persona = new Persona($arrayUsuario);
             $Persona->update();
 
-            header("Location: ../../views/modules/Persona/show.php?id=".$Persona->getDocumento()."&respuesta=correcto");
+            header("Location: ../../views/modules/Persona/show.php?documento=".$Persona->getDocumento()."&respuesta=correcto");
         } catch (\Exception $e) {
             GeneralFunctions::console( $e, 'error', 'errorStack');
-            //var_dump($e);
-            //header("Location: ../../views/modules/Persona/edit.php?respuesta=error&mensaje=" . $e->getMessage());
+         //   header("Location: ../../views/modules/Persona/edit.php?respuesta=error&mensaje=".$e->getMessage());
+            var_dump($e);
         }
     }
 

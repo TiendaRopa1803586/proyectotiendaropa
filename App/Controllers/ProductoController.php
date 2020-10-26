@@ -22,8 +22,8 @@ class ProductoController{
             ProductoController::create();
         } else if ($action == "edit") {
             ProductoController::edit();
-        } else if ($action == "searchForID") {
-            ProductoController::searchForID($_REQUEST['codigoProducto']);
+        } else if ($action == "searchForId") {
+            ProductoController::searchForId($_REQUEST['Id']);
         } else if ($action == "searchAll") {
             ProductoController::getAll();
         } else if ($action == "activate") {
@@ -47,7 +47,7 @@ class ProductoController{
             $arrayProducto['Descripcion'] = $_POST['Descripcion'];
             $arrayProducto['Marca'] = Marca::searchForId($_POST['Marca']);
             $arrayProducto['Subcategoria'] = Subcategoria::searchForId($_POST['Subcategoria']);
-            $arrayProducto['Estado'] = 'Activo';
+            $arrayProducto['Estado'] = $_POST['Estado'];
             var_dump("Array", $arrayProducto);
 
             $Producto = new Producto($arrayProducto);
@@ -86,22 +86,25 @@ class ProductoController{
         }
     }
 //funcion activa de la Producto
-    static public function activate (){
+    static public function activate()
+    {
         try {
-            $ObjProducto = Producto::searchForId($_GET['Id']);
-            $ObjProducto->setEstado("activo");
-            if($ObjProducto->update()){
-                header("Location: ../../views/modules/Producto/index.php?respuesta=correcto");
-            }else{
+            $ObjUsuario = Producto::searchForId($_GET['Id']);
+            $ObjUsuario->setEstado("activo");
+            if ($ObjUsuario->update()) {
+                header("Location: ../../views/modules/Producto/index.php");
+            } else {
                 header("Location: ../../views/modules/Producto/index.php?respuesta=error&mensaje=Error al guardar");
             }
         } catch (\Exception $e) {
+            // GeneralFunctions::console( $e, 'error', 'errorStack');
             //var_dump($e);
-            header("Location: ../../views/modules/Producto/index.php?respuesta=error&mensaje=".$e->getMessage());
+            header("Location: ../../views/modules/Producto/index.php?respuesta=error&mensaje=" . $e->getMessage());
         }
     }
 //funcion inactiva de la producto
-    static public function inactivate (){
+    static public function inactivate ()
+    {
         try {
             $ObjProducto = Producto::searchForId($_GET['Id']);
             $ObjProducto->setEstado("inactivo");
@@ -116,7 +119,7 @@ class ProductoController{
         }
     }
 
-    static public function searchForID ($id){
+    static public function searchForId ($id){
         try {
             return Producto::searchForId($id);
         } catch (\Exception $e) {
@@ -133,5 +136,41 @@ class ProductoController{
             var_dump($e);
             header("Location: ../views/modules/Producto/manager.php?respuesta=error");
         }
+    }
+    private static function ProductoIsInArray($codigoMarca, $ArrMarca){
+        if(count($ArrMarca) > 0){
+            foreach ($ArrMarca as $Marca){
+                if($Marca->getCodigo() == $codigoMarca){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    static public function selectProducto ($isMultiple=false,
+                                        $isRequired=true,
+                                        $id="Producto",
+                                        $nombre="Producto",
+                                        $defaultValue="",
+                                        $class="form-control",
+                                        $where="",
+                                        $arrExcluir = array()){
+        $arrMarca = array();
+        if($where != ""){
+            $base = "SELECT * FROM Producto WHERE ";
+            $arrMarca = Producto::search($base.' '.$where);
+        }else{
+            $arrMarca = Producto::getAll();
+        }
+
+        $htmlSelect = "<select ".(($isMultiple) ? "multiple" : "")." ".(($isRequired) ? "required" : "")." id= '".$id."' name='".$nombre."' class='".$class."' style='width: 100%;'>";
+        $htmlSelect .= "<option value='' >Seleccione</option>";
+        if(count($arrMarca) > 0){
+            foreach ($arrMarca as $Marca)
+                if (!ProductoController::ProductoIsInArray($Marca->getCodigo(),$arrExcluir))
+                    $htmlSelect .= "<option ".(($Marca != "") ? (($defaultValue == $Marca->getCodigo()) ? "selected" : "" ) : "")." value='".$Marca->getCodigo()."'>".$Marca->getNombre()."</option>";
+        }
+        $htmlSelect .= "</select>";
+        return $htmlSelect;
     }
 }

@@ -114,9 +114,9 @@ use App\Controllers\UsuariosController; ?>
                                             <a href="edit.php?documento=<?php echo $usuario->getDocumento(); ?>" type="button" data-toggle="tooltip" title="Actualizar" class="btn docs-tooltip btn-primary btn-xs"><i class="fa fa-edit"></i></a>
                                             <a href="show.php?documento=<?php echo $usuario->getDocumento(); ?>" type="button" data-toggle="tooltip" title="Ver" class="btn docs-tooltip btn-warning btn-xs"><i class="fa fa-eye"></i></a>
                                             <?php if ($usuario->getEstado() != "activo"){ ?>
-                                                <a href="../../../app/Controllers/UsuariosController.php?action=activate&Id=<?php echo $usuario->getDocumento(); ?>" type="button" data-toggle="tooltip" title="Activar" class="btn docs-tooltip btn-success btn-xs"><i class="fa fa-check-square"></i></a>
+                                                <a href="../../../App/Controllers/UsuariosController.php?action=activate&Id=<?php echo $usuario->getDocumento(); ?>" type="button" data-toggle="tooltip" title="Activar" class="btn docs-tooltip btn-success btn-xs"><i class="fa fa-check-square"></i></a>
                                             <?php }else{ ?>
-                                                <a type="button" href="../../../app/Controllers/UsuariosController.php?action=inactivate&Id=<?php echo $usuario->getDocumento(); ?>" data-toggle="tooltip" title="Inactivar" class="btn docs-tooltip btn-danger btn-xs"><i class="fa fa-times-circle"></i></a>
+                                                <a type="button" href="../../../App/Controllers/UsuariosController.php?action=inactivate&Id=<?php echo $usuario->getDocumento(); ?>" data-toggle="tooltip" title="Inactivar" class="btn docs-tooltip btn-danger btn-xs"><i class="fa fa-times-circle"></i></a>
                                             <?php } ?>
                                         </td>
                                     </tr>

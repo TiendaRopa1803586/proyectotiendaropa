@@ -2,7 +2,8 @@
 require("../../partials/routes.php");
 require("../../../app/Controllers/DescuentoController.php");
 
-use App\Controllers\DescuentoController; ?>
+use App\Controllers\DescuentoController;
+use App\Controllers\ProductoController;?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -28,7 +29,7 @@ use App\Controllers\DescuentoController; ?>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="<?= $baseURL; ?>/Views/">proyectotiendaopa</a></li>
+                            <li class="breadcrumb-item"><a href="<?= $baseURL; ?>/views/">proyectotiendaopa</a></li>
                             <li class="breadcrumb-item active">Inicio</li>
                         </ol>
                     </div>
@@ -77,10 +78,17 @@ use App\Controllers\DescuentoController; ?>
                         <hr>
                         <hr>
                         <strong><i class="far fa-file-alt mr-1"></i> Fecha_inicio </strong>
-                        <p class="text-muted"><?= $DataDescuento->getFecha_inicio ?></p>
+                        <p class="text-muted"><?= $DataDescuento->getFecha_inicio() ?></p>
                     <hr>
                     <strong><i class="far fa-file-alt mr-1"></i> Fecha_fin </strong>
                     <p class="text-muted"><?= $DataDescuento->getFecha_fin() ?></p>
+                    <hr>
+                    <strong><i class="fas fa-user mr-1"></i> Producto</strong>
+                    <p class="text-muted"><?= $DataDescuento->GetProducto()->getNombre() ?></p>
+                    <hr>
+                    <hr>
+                    <strong><i class="far fa-file-alt mr-1"></i> Estado </strong>
+                    <p class="text-muted"><?= $DataDescuento->getEstado() ?></p>
                     </p>
 
                 </div>

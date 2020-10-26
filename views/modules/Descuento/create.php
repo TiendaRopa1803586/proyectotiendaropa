@@ -1,4 +1,8 @@
-<?php require("../../partials/routes.php"); ?>
+<?php
+require("../../partials/routes.php");
+require_once("../../../App/Controllers/ProductoController.php");
+use App\Controllers\ProductoController;
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -25,7 +29,7 @@
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="<?= $baseURL; ?>/Views/">proyectotiendaropa</a></li>
+                            <li class="breadcrumb-item"><a href="<?= $baseURL; ?>/views/">proyectotiendaropa</a></li>
                             <li class="breadcrumb-item active">Inicio</li>
                         </ol>
                     </div>
@@ -49,14 +53,14 @@
             <!-- Horizontal Form -->
             <div class="card card-info">
                 <div class="card-header">
-                    <h3 class="card-title"> Form Descuento</h3>
+                    <h3 class="card-title"> Formulario Descuento</h3>
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form class="form-horizontal" method="post" id="frmCreatedescuento" name="frmCreatedescuento" action="../../../app/Controllers/DescuentoController.php?action=create">
+                <form class="form-horizontal" method="post" id="frmCreatedescuento" name="frmCreatedescuento" action="../../../App/Controllers/DescuentoController.php?action=create">
                     <div class="card-body">
                         <div class="form-group row">
-                            <label for="nombre" class="col-sm-2 col-form-label">Nombre</label>
+                            <label for="Nombre" class="col-sm-2 col-form-label">Nombre</label>
                             <div class="col-sm-10">
                                 <input required type="text" class="form-control" id="Nombre" name="Nombre" placeholder="Ingrese nombre del Descuento">
                             </div>
@@ -77,6 +81,28 @@
                             <label for="Fecha_fin" class="col-sm-2 col-form-label">Fecha_fin</label>
                             <div class="col-sm-10">
                                 <input required type="date" class="form-control" id="Fecha_fin" name="Fecha_fin" placeholder="Ingrese la fecha de fin">
+                            </div>
+                        </div>
+                        <div class="form-group row">.
+                            <label for="Producto" class="col-sm-2 col-form-label">Subcategoria</label>
+                            <div class="col-sm-8">
+                                <?= ProductoController::selectProducto(false,
+                                    true,
+                                    'Producto',
+                                    'Producto',
+                                    (!empty($dataProducto)) ? $dataProducto->getProducto()->getCodigo() : '',
+                                    'form-control select2bs4 select2-info',
+                                    "Estado = 'Activo'")
+                                ?>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="Estado" class="col-sm-2 col-form-label">Estado</label>
+                            <div class="col-sm-10">
+                                <select id="Estado" name="Estado" class="custom-select">
+                                    <option value="activo">Activo</option>
+                                    <option value="inactivo">Inactivo</option>
+                                </select>
                             </div>
                         </div>
                     </div>

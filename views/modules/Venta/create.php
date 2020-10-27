@@ -1,12 +1,20 @@
 <?php
+
+require_once("../../../App/Controllers/UsuariosController.php");
+require_once("../../../App/Controllers/SedeController.php");
 require("../../partials/routes.php");
-require_once("../../../App/Controllers/ProductoController.php");
-use App\Controllers\ProductoController;
-?>
+
+use App\Controllers\UsuariosController;
+use App\Controllers\SedeController;
+use App\Controllers\VentaController;
+
+
+
+ ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <title><?= getenv('TITLE_SITE') ?> | Crear Descuento</title>
+    <title><?= getenv('TITLE_SITE') ?> | Crear Venta</title>
     <?php require("../../partials/head_imports.php"); ?>
 
 </head>
@@ -25,7 +33,7 @@ use App\Controllers\ProductoController;
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Crear Descuento</h1>
+                        <h1>Crear Venta</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -45,7 +53,7 @@ use App\Controllers\ProductoController;
                     <div class="alert alert-danger alert-dismissible">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                         <h5><i class="icon fas fa-ban"></i> Error!</h5>
-                            Error al crear el descuento: <?= $_GET['mensaje'] ?>
+                        Error al crear Venta: <?= $_GET['mensaje'] ?>
                     </div>
                 <?php } ?>
             <?php } ?>
@@ -53,49 +61,79 @@ use App\Controllers\ProductoController;
             <!-- Horizontal Form -->
             <div class="card card-info">
                 <div class="card-header">
-                    <h3 class="card-title"> Formulario Descuento</h3>
+                    <h3 class="card-title"> Formulario Venta</h3>
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form class="form-horizontal" method="post" id="frmCreatedescuento" name="frmCreatedescuento" action="../../../App/Controllers/DescuentoController.php?action=create">
+                <form class="form-horizontal" method="post" id="frmCreateVenta" name="frmCreateVenta" action="../../../App/Controllers/VentaController.php?action=create">
                     <div class="card-body">
                         <div class="form-group row">
-                            <label for="Nombre" class="col-sm-2 col-form-label">Nombre</label>
+                            <label for="Fecha" class="col-sm-2 col-form-label">Fecha</label>
                             <div class="col-sm-10">
-                                <input required type="text" class="form-control" id="Nombre" name="Nombre" placeholder="Ingrese nombre del Descuento">
+                                <input required type="date" class="form-control" id="Fecha" name="Fecha" placeholder="Ingrese Fecha">
                             </div>
                         </div>
+
                         <div class="form-group row">
-                            <label for="porcentaje" class="col-sm-2 col-form-label">Porcentaje</label>
+                            <label for="Vendedor" class="col-sm-2 col-form-label">Vendedor</label>
                             <div class="col-sm-10">
-                                <input required type="text" class="form-control" id="Porcentaje" name="Porcentaje" placeholder="Ingrese el porcentaje">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="Fecha_inicio" class="col-sm-2 col-form-label"> Fecha_inicio</label>
-                            <div class="col-sm-10">
-                                <input required type="date" class="form-control" id="Fecha_inicio" name="Fecha_inicio" placeholder="Ingrese la fecha de inicio">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="Fecha_fin" class="col-sm-2 col-form-label">Fecha_fin</label>
-                            <div class="col-sm-10">
-                                <input required type="date" class="form-control" id="Fecha_fin" name="Fecha_fin" placeholder="Ingrese la fecha de fin">
-                            </div>
-                        </div>
-                        <div class="form-group row">.
-                            <label for="Producto" class="col-sm-2 col-form-label">Producto</label>
-                            <div class="col-sm-8">
-                                <?= ProductoController::selectProducto(false,
+                                <?= UsuariosController::selectUsuario(false,
                                     true,
-                                    'Producto',
-                                    'Producto',
-                                    (!empty($dataProducto)) ? $dataProducto->getProducto()->getCodigo() : '',
+                                    'Vendedor',
+                                    'Vendedor',
+                                    (!empty($dataProducto)) ? $dataProducto->getVendedor()->getCodigo() : '',
                                     'form-control select2bs4 select2-info',
                                     "Estado = 'Activo'")
                                 ?>
                             </div>
                         </div>
+
+                        <div class="form-group row">.
+                            <label for="Sede" class="col-sm-2 col-form-label">Sede</label>
+                            <div class="col-sm-8">
+                                <?= SedeController::selectSede(false,
+                                    true,
+                                    'Sede',
+                                    'Sede',
+                                    (!empty($dataProducto)) ? $dataProducto->getSede()->getCodigo() : '',
+                                    'form-control select2bs4 select2-info',
+                                    "Estado = 'Activo'")
+                                ?>
+                            </div>
+                        </div>
+                        <div class="form-group row">.
+                            <label for="Cliente" class="col-sm-2 col-form-label">Cliente</label>
+                            <div class="col-sm-8">
+                                <?= UsuariosController::selectUsuario(false,
+                                    true,
+                                    'Cliente',
+                                    'Cliente',
+                                    (!empty($dataProducto)) ? $dataProducto->getCliente()->getCodigo() : '',
+                                    'form-control select2bs4 select2-info',
+                                    "Estado = 'Activo'")
+                                ?>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="MetodoPago" class="col-sm-2 col-form-label">MetodoPago</label>
+                            <div class="col-sm-10">
+                                <select id="MetodoPago" name="MetodoPago" class="custom-select">
+                                    <option value="TarjetadeCredito">TarjetadeCredito</option>
+                                    <option value="Efectivo">Efectivo</option>
+                                    <option value="Tarjetadebito">Tarjetadebito</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="Total" class="col-sm-2 col-form-label">Total</label>
+                            <div class="col-sm-10">
+
+                                <input required type="text" class="form-control" id="Total" name="Total" placeholder="Ingrese Total">
+                            </div>
+                        </div>
+
+
                         <div class="form-group row">
                             <label for="Estado" class="col-sm-2 col-form-label">Estado</label>
                             <div class="col-sm-10">
@@ -105,7 +143,10 @@ use App\Controllers\ProductoController;
                                 </select>
                             </div>
                         </div>
+
+
                     </div>
+
                     <!-- /.card-body -->
                     <div class="card-footer">
                         <button type="submit" class="btn btn-info">Enviar</button>

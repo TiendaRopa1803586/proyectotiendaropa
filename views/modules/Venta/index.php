@@ -1,8 +1,9 @@
 <?php
-require("../../../app/Controllers/SedeController.php");
-use App\Controllers\SedeController;
+require("../../../App/Controllers/VentaController.php");
+use App\Controllers\VentaController;
 
 require("../../partials/routes.php");
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -50,9 +51,9 @@ require("../../partials/routes.php");
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                         <h5><i class="icon fas fa-check"></i> Correcto!</h5>
                         <?php if ($_GET['action'] == "create"){ ?>
-                            la sede  ha sido creada con exito!
+                            Venta  ha sido creada con exito!
                         <?php }else if($_GET['action'] == "update"){ ?>
-                            Los datos de sede han sido actualizados correctamente!
+                            Los datos de Venta han sido actualizados correctamente!
                         <?php } ?>
                     </div>
                 <?php } ?>
@@ -61,7 +62,7 @@ require("../../partials/routes.php");
             <!-- Default box -->
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Gestionar sede </h3>
+                    <h3 class="card-title">Gestionar Venta </h3>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
                             <i class="fas fa-minus"></i></button>
@@ -74,19 +75,22 @@ require("../../partials/routes.php");
                         <div class="col-auto mr-auto"></div>
                         <div class="col-auto">
                             <a role="button" href="create.php" class="btn btn-primary float-right" style="margin-right: 5px;">
-                                <i class="fas fa-plus"></i> Crear sede
+                                <i class="fas fa-plus"></i> Crear Venta
                             </a>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col">
-                            <table id="tblsede" class="datatable table table-bordered table-striped">
+                            <table id="tblVenta" class="datatable table table-bordered table-striped">
                                 <thead>
                                 <tr>
                                     <th>Id</th>
-                                    <th>Nombre</th>
-                                    <th>Direccion</th>
-                                    <th>Encargado</th>
+                                    <th>Fecha</th>
+                                    <th>Vendedor</th>
+                                   <th>Cliente</th>
+                                    <th>Sede</th>
+                                    <th>MetodoPago</th>
+                                    <th>Total</th>
                                     <th>Estado</th>
                                     <th>Acciones</th>
 
@@ -96,23 +100,26 @@ require("../../partials/routes.php");
                                 </thead>
                                 <tbody>
                                 <?php
-                                $arrProducto = SedeController::getAll();
+                                $arrProducto = VentaController::getAll();
                                 foreach ($arrProducto as $Producto){
                                     ?>
                                     <tr>
                                         <td><?php echo $Producto->getCodigo(); ?></td>
-                                        <td><?php echo $Producto->getNombre(); ?></td>
-                                        <td><?php echo $Producto->getDireccion(); ?></td>
-                                        <td><?php echo $Producto->getEncargado()->getNombre(); ?></td>
+                                        <td><?php echo $Producto->getFecha(); ?></td>
+                                        <td><?php echo $Producto->getVendedor()->getNombre(); ?></td>
+                                        <td><?php echo $Producto->getCliente()->getNombre(); ?></td>
+                                        <td><?php echo $Producto->getSede()->getNombre(); ?></td>
+                                        <td><?php echo $Producto->getMetodoPago(); ?></td>
+                                        <td><?php echo $Producto->getTotal(); ?></td>
                                         <td><?php echo $Producto->getEstado(); ?></td>
 
                                         <td>
                                             <a href="edit.php?id=<?php echo $Producto->getCodigo(); ?>" type="button" data-toggle="tooltip" title="Actualizar" class="btn docs-tooltip btn-primary btn-xs"><i class="fa fa-edit"></i></a>
                                             <a href="show.php?id=<?php echo $Producto->getCodigo(); ?>" type="button" data-toggle="tooltip" title="Ver" class="btn docs-tooltip btn-warning btn-xs"><i class="fa fa-eye"></i></a>
                                             <?php if ($Producto->getEstado() != "activo"){ ?>
-                                                <a href="../../../App/Controllers/SedeController.php?action=activate&Id=<?php echo $Producto->getCodigo(); ?>" type="button" data-toggle="tooltip" title="Activar" class="btn docs-tooltip btn-success btn-xs"><i class="fa fa-check-square"></i></a>
+                                                <a href="../../../App/Controllers/VentaController.php?action=activate&Id=<?php echo $Producto->getCodigo(); ?>" type="button" data-toggle="tooltip" title="Activar" class="btn docs-tooltip btn-success btn-xs"><i class="fa fa-check-square"></i></a>
                                             <?php }else{ ?>
-                                                <a type="button" href="../../../App/Controllers/SedeController.php?action=inactivate&Id=<?php echo $Producto->getCodigo(); ?>" data-toggle="tooltip" title="Inactivar" class="btn docs-tooltip btn-danger btn-xs"><i class="fa fa-times-circle"></i></a>
+                                                <a type="button" href="../../../App/Controllers/VentaController.php?action=inactivate&Id=<?php echo $Producto->getCodigo(); ?>" data-toggle="tooltip" title="Inactivar" class="btn docs-tooltip btn-danger btn-xs"><i class="fa fa-times-circle"></i></a>
                                             <?php } ?>
                                         </td>
                                     </tr>
@@ -120,10 +127,14 @@ require("../../partials/routes.php");
                                 </tbody>
                                 <tfoot>
                                 <tr>
+
                                     <th>Id</th>
-                                    <th>Nombre</th>
-                                    <th>Direccion</th>
-                                    <th>Encargado</th>
+                                    <th>Fecha</th>
+                                    <th>Vendedor</th>
+                                    <th>Cliente</th>
+                                    <th>Sede</th>
+                                    <th>MetodoPago</th>
+                                    <th>Total</th>
                                     <th>Estado</th>
                                     <th>Acciones</th>
                                 </tr>

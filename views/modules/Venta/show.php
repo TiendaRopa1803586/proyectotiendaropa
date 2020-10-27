@@ -1,13 +1,14 @@
 <?php
 require("../../partials/routes.php");
-require("../../../App/Controllers/SedeController.php");
+require("../../../App/Controllers/VentaController.php");
 
-use App\Controllers\SedeController;
-use App\Controllers\UsuariosController; ?>
+use App\Controllers\VentaController;
+use App\Controllers\UsuariosController;
+use App\Controllers\SedeController;?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <title><?= getenv('TITLE_SITE') ?> |  Datos de Sede</title>
+    <title><?= getenv('TITLE_SITE') ?> |  Datos de Venta</title>
     <?php require("../../partials/head_imports.php"); ?>
 </head>
 <body class="hold-transition sidebar-mini">
@@ -25,7 +26,7 @@ use App\Controllers\UsuariosController; ?>
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Informacion de la Sede</h1>
+                        <h1>Informacion de la Venta</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -45,7 +46,7 @@ use App\Controllers\UsuariosController; ?>
                     <div class="alert alert-danger alert-dismissible">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                         <h5><i class="icon fas fa-ban"></i> Error!</h5>
-                        Error al consultar la  Sede: <?= ($_GET['mensaje']) ?? "" ?>
+                        Error al consultar la  Venta: <?= ($_GET['mensaje']) ?? "" ?>
                     </div>
                 <?php } ?>
             <?php } else if (empty($_GET['id'])) { ?>
@@ -59,26 +60,43 @@ use App\Controllers\UsuariosController; ?>
             <!-- Horizontal Form -->
             <div class="card card-info">
                 <?php if(!empty($_GET["id"]) && isset($_GET["id"])){
-                    $DataProducto = SedeController::searchForID($_GET["id"]);
+                    $DataProducto = VentaController::searchForID($_GET["id"]);
                     if(!empty($DataProducto)){
                         ?>
                         <div class="card-header">
-                            <h3 class="card-title"><?= $DataProducto->getNombre()  ?></h3>
+                            <h3 class="card-title">Venta</h3>
                         </div>
                         <div class="card-body">
                             <p>
 
-                                <strong><i class="fas fa-book mr-1"></i> Nombre</strong>
+                                <strong><i class="fas fa-book mr-1"></i> Fecha</strong>
                             <p class="text-muted">
-                                <?= $DataProducto->getNombre() ?>
+                                <?= $DataProducto->getFecha() ?>
                             </p>
                             <hr>
                             <hr>
-                            <strong><i class="fas fa-user mr-1"></i> Direccion</strong>
-                            <p class="text-muted"><?= $DataProducto->getDireccion() ?></p>
+                            <strong><i class="fas fa-user mr-1"></i> Vendedor</strong>
+                            <p class="text-muted"><?= $DataProducto->getVendedor()->getNombre() ?></p>
                             <hr>
-                            <strong><i class="fas fa-user mr-1"></i> Encargado</strong>
-                            <p class="text-muted"><?= $DataProducto->getEncargado()->getNombre() ?></p>
+                            <hr>
+                            <strong><i class="fas fa-user mr-1"></i> Cliente</strong>
+                            <p class="text-muted"><?= $DataProducto->getCliente()->getNombre() ?></p>
+                            <hr>
+                            <hr>
+                            <strong><i class="fas fa-user mr-1"></i> Sede</strong>
+                            <p class="text-muted"><?= $DataProducto->getSede()->getNombre() ?></p>
+                            <hr>
+                            <hr>
+                            <strong><i class="fas fa-book mr-1"></i> MetodoPago</strong>
+                            <p class="text-muted">
+                                <?= $DataProducto->getMetodoPago() ?>
+                            </p>
+                            <hr>
+                            <hr>
+                            <strong><i class="fas fa-book mr-1"></i> Total</strong>
+                            <p class="text-muted">
+                                <?= $DataProducto->getTotal() ?>
+                            </p>
                             <hr>
                             <hr>
                             <strong><i class="far fa-file-alt mr-1"></i> Estado </strong>

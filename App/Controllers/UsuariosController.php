@@ -173,7 +173,7 @@ class UsuariosController
         if(count($arrUsuarios) > 0){
             foreach ($arrUsuarios as $usuario)
                 if (!UsuariosController::usuarioIsInArray($usuario->getDocumento(),$arrExcluir))
-                    $htmlSelect .= "<option ".(($usuario != "") ? (($defaultValue == $usuario->getDocumento()) ? "selected" : "" ) : "")." value='".$usuario->getDocumento()."'>".$usuario->getDocumento()." - ".$usuario->getNombres()." ".$usuario->getApellidos()."</option>";
+                    $htmlSelect .= "<option ".(($usuario != "") ? (($defaultValue == $usuario->getDocumento()) ? "selected" : "" ) : "")." value='".$usuario->getDocumento()."'> ".$usuario->getNombre()." </option>";
         }
         $htmlSelect .= "</select>";
         return $htmlSelect;

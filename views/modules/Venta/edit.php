@@ -1,17 +1,19 @@
 <?php
 require_once("../../../App/Controllers/UsuariosController.php");
 require_once("../../../App/Controllers/SedeController.php");
+require_once("../../../App/Controllers/VentaController.php");
 require("../../partials/routes.php");
 
 use App\Controllers\UsuariosController;
 use App\Controllers\SedeController;
+use App\Controllers\VentaController;
 
 
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?= getenv('TITLE_SITE') ?> | Modificar Sede</title>
+    <title><?= getenv('TITLE_SITE') ?> | Modificar Elemento</title>
     <?php require("../../partials/head_imports.php"); ?>
 </head>
 <body class="hold-transition sidebar-mini">
@@ -29,7 +31,7 @@ use App\Controllers\SedeController;
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Modificar Sede</h1>
+                        <h1>Modificar Venta</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -49,7 +51,7 @@ use App\Controllers\SedeController;
                     <div class="alert alert-danger alert-dismissible">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                         <h5><i class="icon fas fa-ban"></i> Error!</h5>
-                        Error al editar la Sede: <?= ($_GET['mensaje']) ?? "" ?>
+                        Error al editar la Venta: <?= ($_GET['mensaje']) ?? "" ?>
                     </div>
                 <?php } ?>
             <?php } else if (empty($_GET['id'])) { ?>
@@ -78,37 +80,69 @@ use App\Controllers\SedeController;
                 <?php if(!empty($_GET["id"]) && isset($_GET["id"])){ ?>
                     <p>
                     <?php
-                    $DataProducto = SedeController::searchForID($_GET["id"]);
+                    $DataProducto = VentaController::searchForID($_GET["id"]);
                     if(!empty($DataProducto)){
                         ?>
                         <!-- form start -->
-                        <form class="form-horizontal" method="post" id="frmSede" name="frmSede" action="../../../App/Controllers/SedeController.php?action=edit">
+                        <form class="form-horizontal" method="post" id="frmModificarVenta" name="frmModificarVenta" action="../../../App/Controllers/VentaController.php?action=edit">
                             <input id="Codigo" name="Codigo" value="<?php echo $DataProducto->getCodigo(); ?>" hidden required="required" type="text">
 
                             <div class="card-body">
                                 <div class="form-group row">
-                                    <label for="Nombre" class="col-sm-2 col-form-label">Nombre</label>
+                                    <label for="Fecha" class="col-sm-2 col-form-label">Fecha</label>
                                     <div class="col-sm-10">
-                                        <input required type="text" class="form-control" id="Nombre" name="Nombre" value="<?= $DataProducto->getNombre(); ?>" placeholder="Ingrese nombre de la Categoria">
+                                        <input required type="date" class="form-control" id="Fecha" name="Fecha" value="<?= $DataProducto->getFecha(); ?>" placeholder="Ingrese Fecha">
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="Direccion" class="col-sm-2 col-form-label">Direccion</label>
-                                    <div class="col-sm-10">
-                                        <input required type="text" class="form-control" id="Direccion" name="Direccion" value="<?= $DataProducto->getDireccion(); ?>" placeholder="Ingrese Direccion">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="Encargado" class="col-sm-2 col-form-label">Encargado</label>
+                                    <label for="Vendedor" class="col-sm-2 col-form-label">Vendedor</label>
                                     <div class="col-sm-10">
                                         <?= UsuariosController::selectUsuario(false,
                                             true,
-                                            'Encargado',
-                                            'Encargado',
-                                            (!empty($DataProducto)) ? $DataProducto->getEncargado()->getDocumento() : '',
+                                            'Vendedor',
+                                            'Vendedor',
+                                            (!empty($DataProducto)) ? $DataProducto->getVendedor()->getDocumento() : '',
                                             'form-control select2bs4 select2-info',
                                             "")
                                         ?>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="Cliente" class="col-sm-2 col-form-label">Cliente</label>
+                                    <div class="col-sm-10">
+                                        <?= UsuariosController::selectUsuario(false,
+                                            true,
+                                            'Cliente',
+                                            'Cliente',
+                                            (!empty($DataProducto)) ? $DataProducto->getCliente()->getDocumento() : '',
+                                            'form-control select2bs4 select2-info',
+                                            "")
+                                        ?>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="Sede" class="col-sm-2 col-form-label">Sede</label>
+                                    <div class="col-sm-10">
+                                        <?= SedeController::selectSede(false,
+                                            true,
+                                            'Sede',
+                                            'Sede',
+                                            (!empty($DataProducto)) ? $DataProducto->getSede()->getCodigo() : '',
+                                            'form-control select2bs4 select2-info',
+                                            "")
+                                        ?>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="MetodoPago" class="col-sm-2 col-form-label">MetodoPago</label>
+                                    <div class="col-sm-10">
+                                        <input required type="text" class="form-control" id="MetodoPago" name="MetodoPago" value="<?= $DataProducto->getMetodoPago(); ?>" placeholder="Ingrese MetodoPago">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="Total" class="col-sm-2 col-form-label">Total</label>
+                                    <div class="col-sm-10">
+                                        <input required type="text" class="form-control" id="Total" name="Total" value="<?= $DataProducto->getTotal(); ?>" placeholder="Ingrese Fecha">
                                     </div>
                                 </div>
                                 <div class="form-group row">

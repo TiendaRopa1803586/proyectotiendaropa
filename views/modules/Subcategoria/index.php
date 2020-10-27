@@ -35,7 +35,7 @@ require("../../partials/routes.php");
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="<?= $baseURL; ?>/Views/">proyectotiendaropa</a></li>
+                            <li class="breadcrumb-item"><a href="<?= $baseURL; ?>/views/">proyectotiendaropa</a></li>
                             <li class="breadcrumb-item active">Inicio</li>
                         </ol>
                     </div>
@@ -105,8 +105,8 @@ require("../../partials/routes.php");
                                         <td><?php echo $Subcategoria->getCodigo(); ?></td>
                                         <td><?php echo $Subcategoria->getNombre(); ?></td>
                                         <td><?php echo $Subcategoria->getDescripcion(); ?></td>
-                                        <td><?php echo $Subcategoria->getEstado(); ?></td>
                                         <td><?php echo $Subcategoria->getCategoria()->getNombre(); ?></td>
+                                        <td><?php echo $Subcategoria->getEstado(); ?></td>
                                         <td>
                                             <a href="edit.php?id=<?php echo $Subcategoria->getCodigo(); ?>" type="button" data-toggle="tooltip" title="Actualizar" class="btn docs-tooltip btn-primary btn-xs"><i class="fa fa-edit"></i></a>
                                             <a href="show.php?id=<?php echo $Subcategoria->getCodigo(); ?>" type="button" data-toggle="tooltip" title="Ver" class="btn docs-tooltip btn-warning btn-xs"><i class="fa fa-eye"></i></a>

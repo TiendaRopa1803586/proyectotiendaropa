@@ -1,13 +1,10 @@
 <?php
 
-require_once("../../../App/Controllers/SubcategoriaController.php");
-require_once("../../../App/Controllers/MarcaController.php");
+require_once("../../../App/Controllers/UsuariosController.php");
 require("../../partials/routes.php");
 
-use App\Controllers\SubcategoriaController;
-use App\Controllers\MarcaController;
-
-use App\Controllers\ProductoController;
+use App\Controllers\UsuariosController;
+use App\Controllers\SedeController;
 
 
 
@@ -15,7 +12,7 @@ use App\Controllers\ProductoController;
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <title><?= getenv('TITLE_SITE') ?> | Crear Producto</title>
+    <title><?= getenv('TITLE_SITE') ?> | Crear Sede</title>
     <?php require("../../partials/head_imports.php"); ?>
 
 </head>
@@ -34,7 +31,7 @@ use App\Controllers\ProductoController;
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Crear Producto</h1>
+                        <h1>Crear Sede</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -54,7 +51,7 @@ use App\Controllers\ProductoController;
                     <div class="alert alert-danger alert-dismissible">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                         <h5><i class="icon fas fa-ban"></i> Error!</h5>
-                        Error al crear Producto: <?= $_GET['mensaje'] ?>
+                        Error al crear Sede: <?= $_GET['mensaje'] ?>
                     </div>
                 <?php } ?>
             <?php } ?>
@@ -62,11 +59,11 @@ use App\Controllers\ProductoController;
             <!-- Horizontal Form -->
             <div class="card card-info">
                 <div class="card-header">
-                    <h3 class="card-title"> Formulario producto</h3>
+                    <h3 class="card-title"> Formulario Sede</h3>
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form class="form-horizontal" method="post" id="frmCreateProducto" name="frmCreateProducto" action="../../../App/Controllers/ProductoController.php?action=create">
+                <form class="form-horizontal" method="post" id="frmCreateProducto" name="frmCreateProducto" action="../../../App/Controllers/SedeController.php?action=create">
                     <div class="card-body">
                         <div class="form-group row">
                             <label for="Nombre" class="col-sm-2 col-form-label">Nombre</label>
@@ -76,39 +73,20 @@ use App\Controllers\ProductoController;
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="Importado" class="col-sm-2 col-form-label">Importado</label>
+                            <label for="Direccion" class="col-sm-2 col-form-label">Direccion</label>
                             <div class="col-sm-10">
-                                <input required type="text" class="form-control" id="Importado" name="Importado" placeholder="Ingrese Importado">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="Descripcion" class="col-sm-2 col-form-label">Descripcion</label>
-                            <div class="col-sm-10">
-                                <input required type="text" class="form-control" id="Descripcion" name="Descripcion" placeholder="Ingrese descripción">
+                                <input required type="text" class="form-control" id="Direccion" name="Direccion" placeholder="Ingrese Direccion">
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label for="Marca" class="col-sm-2 col-form-label">Marca</label>
+                            <label for="Encargado" class="col-sm-2 col-form-label">Encargado</label>
                             <div class="col-sm-10">
-                                <?= MarcaController::selectMarca(false,
+                                <?= UsuariosController::selectUsuario(false,
                                     true,
-                                    'Marca',
-                                    'Marca',
-                                    (!empty($dataProducto)) ? $dataProducto->getMarca()->getCodigo() : '',
-                                    'form-control select2bs4 select2-info',
-                                    "Estado = 'Activo'")
-                                ?>
-                            </div>
-                        </div>
-                        <div class="form-group row">.
-                            <label for="Subcategoria" class="col-sm-2 col-form-label">Subcategoria</label>
-                            <div class="col-sm-8">
-                                <?= SubcategoriaController::selectSubcategoria(false,
-                                    true,
-                                    'Subcategoria',
-                                    'Subcategoria',
-                                    (!empty($dataProducto)) ? $dataProducto->getSubcategoria()->getCodigo() : '',
+                                    'Encargado',
+                                    'Encargado',
+                                    (!empty($dataProducto)) ? $dataProducto->getEncargado()->getCodigo() : '',
                                     'form-control select2bs4 select2-info',
                                     "Estado = 'Activo'")
                                 ?>

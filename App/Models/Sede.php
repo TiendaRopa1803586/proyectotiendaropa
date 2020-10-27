@@ -2,33 +2,44 @@
 
 
 namespace App\Models;
-use http\QueryString;
-require_once (__DIR__ .'/../../vendor/autoload.php');
-require_once('BasicModel.php');
-#Creacion de la clase con herencia de la clase Basic Model
 
-class Marca extends BasicModel
+
+require_once (__DIR__ .'/../../vendor/autoload.php');
+require_once ('Persona.php');
+require_once('BasicModel.php');
+
+
+use App\Models\Persona;
+
+class Sede extends BasicModel
 {
     private $Codigo;
     private $Nombre;
-    private $Descripcion;
+    private $Direccion;
+    private $Encargado;
     private $Estado;
+
 
     /**
      *Categoria constructor.
      * @param $Codigo
      * @param $Nombre
-     * @param $Descripcion
+     * @param $Direccion
+     * @param $Encargado
      * @param $Estado
 
+
      */
-    public function __construct($Marca = array())
+    public function __construct($Producto = array())
     {
         parent::__construct(); //Llama al contructor padre "la clase conexion" para conectarme a la BD
-        $this->Codigo = $Marca['Codigo'] ?? null;
-        $this->Nombre = $Marca['Nombre'] ?? null;
-        $this->Descripcion = $Marca['Descripcion'] ?? null;
-        $this->Estado = $Marca['Estado'] ?? null;
+        $this->Codigo = $Producto['Codigo'] ?? null;
+        $this->Nombre = $Producto ['Nombre'] ?? null;
+        $this->Direccion = $Producto['Direccion'] ?? null;
+        $this->Encargado = $Producto['Encargado'] ?? null;
+        $this->Estado = $Producto['Estado'] ?? null;
+
+
     }
     /* Metodo destructor cierra la conexion. */
     function __destruct() {
@@ -46,7 +57,7 @@ class Marca extends BasicModel
     /**
      * @param int $Codigo
      */
-    public function setCodigo(?int $Codigo): void
+    public function setCodigo($Codigo): void
     {
         $this->Codigo = $Codigo;
     }
@@ -70,18 +81,35 @@ class Marca extends BasicModel
     /**
      * @return string
      */
-    public function getDescripcion(): ?string
+    public function getDireccion(): ?string
     {
-        return $this->Descripcion;
+        return $this->Direccion;
     }
 
     /**
-     * @param string $Descripcion
+     * @param string $Direccion
      */
-    public function setDescripcion(?string $Descripcion): void
+    public function setDireccion(?string $Direccion): void
     {
-        $this->Descripcion = $Descripcion;
+        $this->Direccion = $Direccion;
     }
+
+    /**
+     * @return Persona
+     */
+    public function getEncargado(): ?Persona
+    {
+        return $this->Encargado;
+    }
+
+    /**
+     * @param Persona $Encargado
+     */
+    public function setEncargado(?Persona $Encargado): void
+    {
+        $this->Encargado = $Encargado;
+    }
+
 
     /**
      * @return string
@@ -98,26 +126,37 @@ class Marca extends BasicModel
     {
         $this->Estado = $Estado;
     }
+
+
+
     //creacion del metodo create
+
     public function create() : bool
     {
-        $result = $this->insertRow("INSERT INTO merempresac.Marca VALUES (NULL, ?, ?, ?)", array(
+        $result = $this->insertRow("INSERT INTO merempresac.Sede VALUES (NULL, ?, ?, ?, ?)", array(
+
                 $this->Nombre,
-                $this->Descripcion,
-                $this->Estado,
+                $this->Direccion,
+                $this->Encargado->getDocumento(),
+                $this->Estado
 
             )
         );
+
+        $this->setCodigo(($result) ? $this->getLastId() : null);
         $this->Disconnect();
         return $result;
     }
     public function update() : bool
     {
-        $result = $this->updateRow("UPDATE merempresac.Marca SET Nombre = ?, Descripcion = ?, Estado = ? WHERE Codigo = ?", array(
+        $result = $this->updateRow("UPDATE merempresac.Sede SET Nombre = ?,Direccion = ?, Encargado = ?, Estado = ? WHERE Codigo = ?", array(
+
                 $this->Nombre,
-                $this->Descripcion,
+                $this->Direccion,
+                $this->Encargado->getDocumento(),
                 $this->Estado,
-                $this->Codigo,
+                $this->Codigo
+
             )
         );
         $this->Disconnect();
@@ -131,63 +170,69 @@ class Marca extends BasicModel
     //buscar por query
     public static function search($query) : array
     {
-        $arrMarca = array();
-        $tmp = new Marca();
+        $arrProducto = array();
+        $tmp = new Sede();
         $getrows = $tmp->getRows($query);
 
         foreach ($getrows as $valor) {
-            $Marca = new Marca();
-            $Marca->Codigo = $valor['Codigo'];
-            $Marca->Nombre = $valor['Nombre'];
-            $Marca->Descripcion = $valor['Descripcion'];
-            $Marca->Estado = $valor['Estado'];
-            $Marca->Disconnect();
-            array_push($arrMarca, $Marca);
+            $Producto = new Sede();
+            $Producto->Codigo = $valor['Codigo'];
+            $Producto->Nombre = $valor['Nombre'];
+            $Producto->Direccion = $valor['Direccion'];
+            $Producto->Encargado = Persona::searchForId($valor['Encargado']);
+            $Producto->Estado = $valor['Estado'];
+
+            $Producto->Disconnect();
+            array_push($arrProducto, $Producto);
         }
         $tmp->Disconnect();
-        return $arrMarca;
+        return $arrProducto ;
     }
-    public static function searchForId($Codigo) : Marca
+    public static function searchForId($Codigo) : Sede
     {
-        $Marca= null;
+        $Producto= null;
         if ($Codigo > 0){
-            $Marca= new Marca();
-            $getrow = $Marca->getRow("SELECT * FROM merempresac.marca WHERE Codigo =?", array($Codigo));
-            $Marca->Codigo = $getrow['Codigo'];
-            $Marca->Nombre = $getrow['Nombre'];
-            $Marca->Descripcion = $getrow['Descripcion'];
-            $Marca->Estado = $getrow['Estado'];
+            $Producto= new Sede();
+            $getrow = $Producto->getRow("SELECT * FROM merempresac.Sede WHERE Codigo =?", array($Codigo));
+            $Producto->Codigo = $getrow['Codigo'];
+            $Producto ->Nombre = $getrow['Nombre'];
+            $Producto ->Direccion = $getrow['Direccion'];
+            $Producto->Encargado  = Persona::searchForId($getrow['Encargado']);
+            $Producto->Estado = $getrow['Estado'];
+
 
         }
-        $Marca->Disconnect();
-        return $Marca;
+        $Producto->Disconnect();
+        return $Producto;
     }
 
 
     public static function getAll() : array
     {
-        return Marca::search("SELECT * FROM merempresac.marca");
+        return Sede::search("SELECT * FROM merempresac.Sede ");
     }
 
-    public static function MarcaRegistrado ($Nombre) : bool
+    public static function SedeRegistrado($Nombre) : bool
     {
-        $result = Marca::search("SELECT * FROM merempresac.Marca where Nombre = '".$Nombre . "'");
+        $result = Sede::search("SELECT Codigo FROM merempresac.Sede where Nombre = '".$Nombre. "'");
         if (count($result) > 0){
             return true;
         }else{
             return false;
         }
     }
-    public function __toString() : string
+    public function __toString()
     {
-            return "Codigo: $this->Codigo, Nombre: $this->Nombre, Descripcion: $this->Descripcion, Estado: $this->Estado";
+        return $this->getNombre()." ".$this->getDireccion()." ".
+               $this->getEncargado()->getNombre()."".
+               $this->getEstado()." ".$this->getCodigo();
     }
 
 
-    public function delete($idMarca): bool
+    public function delete($idProducto): bool
     {
-        $MarcaDelet = Marca::searchForId($idMarca);
-        $MarcaDelet->setestado("Inactivo");
-        return $MarcaDelet->update();
+        $ProductoDelet = Sede::searchForId($idProducto);
+        $ProductoDelet->setEstado("inactivo");
+        return $ProductoDelet->update();
     }
 }

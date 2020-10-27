@@ -35,7 +35,7 @@ require("../../partials/routes.php");
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="<?= $baseURL; ?>/Views/">proyectotiendaropa</a></li>
+                            <li class="breadcrumb-item"><a href="<?= $baseURL; ?>/views/">proyectotiendaropa</a></li>
                             <li class="breadcrumb-item active">Inicio</li>
                         </ol>
                     </div>
@@ -89,7 +89,6 @@ require("../../partials/routes.php");
                                     <th>Nombre</th>
                                    <th>Descripción</th>
                                     <th>Estado</th>
-                                    <th>Acciones</th>
                                     <th>Acciones</th>
                                 </tr>
 

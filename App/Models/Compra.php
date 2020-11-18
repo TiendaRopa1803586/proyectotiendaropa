@@ -5,23 +5,21 @@ namespace App\Models;
 
 
 require_once (__DIR__ .'/../../vendor/autoload.php');
-require_once ('Persona.php');
 require_once ('Sede.php');
+require_once ('Persona.php');
 require_once('BasicModel.php');
 
-
-use App\Models\Persona;
 use App\Models\Sede;
+use App\Models\Persona;
 
 
-class Venta extends BasicModel
+
+class Compra extends BasicModel
 {
     private $Codigo;
     private $Fecha;
-    private $Vendedor;
-    private $Cliente;
     private $Sede;
-    private $MetodoPago;
+    private $Proveedor;
     private $Total;
     private $Estado;
 
@@ -30,8 +28,6 @@ class Venta extends BasicModel
      *Categoria constructor.
      * @param $Codigo
      * @param $Fecha
-     * @param $Vendedor
-     * @param $Cliente
      * @param $Sede
      * @param $MetodoPago
      * @param $Total
@@ -44,10 +40,8 @@ class Venta extends BasicModel
         parent::__construct(); //Llama al contructor padre "la clase conexion" para conectarme a la BD
         $this->Codigo = $Producto['Codigo'] ?? null;
         $this->Fecha = $Producto ['Fecha'] ?? null;
-        $this->Vendedor = $Producto['Vendedor'] ?? null;
-        $this->Cliente = $Producto['Cliente'] ?? null;
         $this->Sede = $Producto['Sede'] ?? null;
-        $this->MetodoPago = $Producto['MetodoPago'] ?? null;
+        $this->Proveedor = $Producto['Proveedor'] ?? null;
         $this->Total = $Producto['Total'] ?? null;
         $this->Estado = $Producto['Estado'] ?? null;
 
@@ -91,38 +85,6 @@ class Venta extends BasicModel
     }
 
     /**
-     * @return Persona
-     */
-    public function getVendedor(): ?Persona
-    {
-        return $this->Vendedor;
-    }
-
-    /**
-     * @param Persona $Vendedor
-     */
-    public function setVendedor(?Persona $Vendedor): void
-    {
-        $this->Vendedor = $Vendedor;
-    }
-
-    /**
-     * @return Persona
-     */
-    public function getCliente(): ?Persona
-    {
-        return $this->Cliente;
-    }
-
-    /**
-     * @param Persona $Cliente
-     */
-    public function setCliente(?Persona $Cliente): void
-    {
-        $this->Cliente = $Cliente;
-    }
-
-    /**
      * @return Sede
      */
     public function getSede(): ?Sede
@@ -139,20 +101,22 @@ class Venta extends BasicModel
     }
 
     /**
-     * @return string
+     * @return Persona
      */
-    public function getMetodoPago(): ?string
+    public function getProveedor(): ?Persona
     {
-        return $this->MetodoPago;
+        return $this->Proveedor;
     }
 
     /**
-     * @param string $MetodoPago
+     * @param Persona $Proveedor
      */
-    public function setMetodoPago(?string $MetodoPago): void
+    public function setProveedor(?Persona $Proveedor): void
     {
-        $this->MetodoPago = $MetodoPago;
+        $this->Proveedor = $Proveedor;
     }
+
+
 
     /**
      * @return int
@@ -194,13 +158,11 @@ class Venta extends BasicModel
 
     public function create() : bool
     {
-        $result = $this->insertRow("INSERT INTO merempresac.Venta VALUES (NULL, ?, ?, ?, ?, ?, ?, ?)", array(
+        $result = $this->insertRow("INSERT INTO merempresac.Compra VALUES (NULL, ?, ?, ?, ?, ?)", array(
 
                 $this->Fecha,
-                $this->Vendedor->getDocumento(),
-                $this->Cliente->getDocumento(),
                 $this->Sede->getCodigo(),
-                $this->MetodoPago,
+                $this->Proveedor->getDocumento(),
                 $this->Total,
                 $this->Estado
 
@@ -213,13 +175,11 @@ class Venta extends BasicModel
     }
     public function update() : bool
     {
-        $result = $this->updateRow("UPDATE merempresac.Venta SET Fecha = ?,Vendedor = ?, Cliente = ?,Sede = ?, MetodoPago = ?,Total = ?, Estado = ? WHERE Codigo = ?", array(
+        $result = $this->updateRow("UPDATE merempresac.Compra SET Fecha = ?,Sede = ?, Proveedor = ?,Total = ?, Estado = ? WHERE Codigo = ?", array(
 
                 $this->Fecha,
-                $this->Vendedor->getDocumento(),
-                $this->Cliente->getDocumento(),
                 $this->Sede->getCodigo(),
-                $this->MetodoPago,
+                $this->Proveedor->getDocumento(),
                 $this->Total,
                 $this->Estado,
                 $this->Codigo
@@ -238,17 +198,15 @@ class Venta extends BasicModel
     public static function search($query) : array
     {
         $arrProducto = array();
-        $tmp = new Venta();
+        $tmp = new Compra();
         $getrows = $tmp->getRows($query);
 
         foreach ($getrows as $valor) {
-            $Producto = new Venta();
+            $Producto = new Compra();
             $Producto->Codigo = $valor['Codigo'];
             $Producto->Fecha = $valor['Fecha'];
-            $Producto->Vendedor = Persona::searchForId($valor['Vendedor']);
-            $Producto->Cliente = Persona::searchForId($valor['Cliente']);
             $Producto->Sede = Sede::searchForId($valor['Sede']);
-            $Producto->MetodoPago = $valor['MetodoPago'];
+            $Producto->Proveedor = Persona::searchForId($valor['Proveedor']);
             $Producto->Total = $valor['Total'];
             $Producto->Estado = $valor['Estado'];
 
@@ -258,18 +216,16 @@ class Venta extends BasicModel
         $tmp->Disconnect();
         return $arrProducto ;
     }
-    public static function searchForId($Codigo) : Venta
+    public static function searchForId($Codigo) : Compra
     {
         $Producto= null;
         if ($Codigo > 0){
-            $Producto= new Venta();
-            $getrow = $Producto->getRow("SELECT * FROM merempresac.Venta WHERE Codigo =?", array($Codigo));
+            $Producto= new Compra();
+            $getrow = $Producto->getRow("SELECT * FROM merempresac.Compra WHERE Codigo =?", array($Codigo));
             $Producto->Codigo = $getrow['Codigo'];
             $Producto ->Fecha = $getrow['Fecha'];
-            $Producto->Vendedor = Persona::searchForId($getrow['Vendedor']);
-            $Producto->Cliente  = Persona::searchForId($getrow['Cliente']);
             $Producto->Sede  = Sede::searchForId($getrow['Sede']);
-            $Producto ->MetodoPago = $getrow['MetodoPago'];
+            $Producto->Proveedor = Persona::searchForId($getrow['Proveedor']);
             $Producto ->Total = $getrow['Total'];
             $Producto->Estado = $getrow['Estado'];
 
@@ -282,12 +238,12 @@ class Venta extends BasicModel
 
     public static function getAll() : array
     {
-        return Venta::search("SELECT * FROM merempresac.Venta ");
+        return Compra::search("SELECT * FROM merempresac.Compra ");
     }
 
-    public static function VentaRegistrado($Nombre) : bool
+    public static function CompraRegistrada($Nombre) : bool
     {
-        $result = Venta::search("SELECT Codigo FROM merempresac.Venta where Fecha = '".$Nombre. "'");
+        $result = Compra::search("SELECT Codigo FROM merempresac.Compra where Fecha = '".$Nombre. "'");
         if (count($result) > 0){
             return true;
         }else{
@@ -296,15 +252,15 @@ class Venta extends BasicModel
     }
     public function __toString()
     {
-        return $this->getFecha()." ".$this->getMetodoPago()." ".$this->getTotal()."".
-               $this->getSede()->getNombre()." ".
+        return $this->getFecha()." ".
+               $this->getSede()->getNombre()."".$this->getProveedor()->getNombre()." ".
                $this->getEstado()." ".$this->getCodigo();
     }
 
 
     public function delete($idProducto): bool
     {
-        $ProductoDelet = Venta::searchForId($idProducto);
+        $ProductoDelet = Compra::searchForId($idProducto);
         $ProductoDelet->setEstado("inactivo");
         return $ProductoDelet->update();
     }
